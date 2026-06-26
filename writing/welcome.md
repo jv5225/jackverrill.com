@@ -2,6 +2,7 @@
 title: Welcome
 date: 2026-06-26
 summary: The first piece on this site.
+category: On AI
 ---
 
 This is the first piece of writing on the site. Replace this file's

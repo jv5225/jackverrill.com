@@ -11,21 +11,39 @@ ROOT = Path(__file__).parent
 WRITING_DIR = ROOT / "writing"
 BUILD_DIR = ROOT / "build"
 SITE_NAME = "Jack Verrill"
+CATEGORY_ORDER = ["On AI", "On Foreign Policy", "On Electoral Politics"]
 
 
 def slugify(stem: str) -> str:
     return re.sub(r"[^a-z0-9-]+", "-", stem.lower()).strip("-")
 
 
+def piece_list_html(pieces, heading):
+    html = f"<h1>{heading}</h1><ul class=\"piece-list\">"
+    for p in pieces:
+        html += (
+            "<li>"
+            f'<a class="piece-title" href="/{p["slug"]}.html">{p["title"]}</a>'
+            + (f'<span class="piece-meta">{p["date"]}</span>' if p["date"] else "")
+            + (f"<p>{p['summary']}</p>" if p["summary"] else "")
+            + "</li>"
+        )
+    html += "</ul>"
+    return html
+
+
 def main():
     if BUILD_DIR.exists():
         shutil.rmtree(BUILD_DIR)
     BUILD_DIR.mkdir()
+    (BUILD_DIR / "category").mkdir()
     shutil.copy(ROOT / "assets" / "style.css", BUILD_DIR / "style.css")
 
     env = Environment(loader=FileSystemLoader(ROOT / "templates"))
     template = env.get_template("base.html")
     year = datetime.date.today().year
+
+    categories = [{"title": c, "slug": slugify(c)} for c in CATEGORY_ORDER]
 
     pieces = []
     for md_path in sorted(WRITING_DIR.glob("*.md")):
@@ -33,41 +51,58 @@ def main():
         title = post.get("title", md_path.stem)
         date = post.get("date", "")
         summary = post.get("summary", "")
+        category = post.get("category", "")
         slug = slugify(md_path.stem)
         html_body = markdown.markdown(post.content, extensions=["extra"])
 
         page_html = template.render(
             title=title,
             site_name=SITE_NAME,
-            root="",
+            root="/",
             year=year,
+            categories=categories,
             content=(
                 f"<h1>{title}</h1>"
                 + (f'<p class="piece-meta">{date}</p>' if date else "")
+                + (f'<a class="category-tag" href="/category/{slugify(category)}.html">{category}</a>' if category else "")
                 + html_body
             ),
         )
         (BUILD_DIR / f"{slug}.html").write_text(page_html)
 
-        pieces.append({"title": title, "date": date, "summary": summary, "slug": slug})
+        pieces.append(
+            {
+                "title": title,
+                "date": date,
+                "summary": summary,
+                "slug": slug,
+                "category": category,
+            }
+        )
 
     pieces.sort(key=lambda p: str(p["date"]), reverse=True)
 
-    list_html = "<h1>Writing</h1><ul class=\"piece-list\">"
-    for p in pieces:
-        list_html += (
-            "<li>"
-            f'<a class="piece-title" href="{p["slug"]}.html">{p["title"]}</a>'
-            + (f'<span class="piece-meta">{p["date"]}</span>' if p["date"] else "")
-            + (f"<p>{p['summary']}</p>" if p["summary"] else "")
-            + "</li>"
-        )
-    list_html += "</ul>"
-
     index_html = template.render(
-        title="Home", site_name=SITE_NAME, root="", year=year, content=list_html
+        title="Home",
+        site_name=SITE_NAME,
+        root="/",
+        year=year,
+        categories=categories,
+        content=piece_list_html(pieces, "Writing"),
     )
     (BUILD_DIR / "index.html").write_text(index_html)
+
+    for cat in categories:
+        cat_pieces = [p for p in pieces if slugify(p["category"]) == cat["slug"]]
+        cat_html = template.render(
+            title=cat["title"],
+            site_name=SITE_NAME,
+            root="/",
+            year=year,
+            categories=categories,
+            content=piece_list_html(cat_pieces, cat["title"]),
+        )
+        (BUILD_DIR / "category" / f"{cat['slug']}.html").write_text(cat_html)
 
     print(f"Built {len(pieces)} piece(s) into {BUILD_DIR}")
 

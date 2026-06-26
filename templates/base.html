@@ -9,6 +9,11 @@
 <body>
   <header>
     <a class="site-name" href="{{ root }}index.html">{{ site_name }}</a>
+    <nav class="category-nav">
+      {% for cat in categories %}
+      <a href="{{ root }}category/{{ cat.slug }}.html">{{ cat.title }}</a>
+      {% endfor %}
+    </nav>
   </header>
   <main>
     {{ content }}

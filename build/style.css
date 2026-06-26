@@ -27,6 +27,34 @@ header {
   font-weight: bold;
   color: var(--text);
   text-decoration: none;
+  display: block;
+}
+
+.category-nav {
+  margin-top: 0.75rem;
+  display: flex;
+  gap: 1.25rem;
+}
+
+.category-nav a {
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: var(--muted);
+}
+
+.category-nav a:hover {
+  color: var(--accent);
+}
+
+.category-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  padding: 0.1rem 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 main {
