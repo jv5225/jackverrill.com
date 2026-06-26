@@ -38,6 +38,7 @@ def main():
     BUILD_DIR.mkdir()
     (BUILD_DIR / "category").mkdir()
     shutil.copy(ROOT / "assets" / "style.css", BUILD_DIR / "style.css")
+    shutil.copy(ROOT / "assets" / "about-photo.jpg", BUILD_DIR / "about-photo.jpg")
 
     env = Environment(loader=FileSystemLoader(ROOT / "templates"))
     template = env.get_template("base.html")
@@ -103,6 +104,26 @@ def main():
             content=piece_list_html(cat_pieces, cat["title"]),
         )
         (BUILD_DIR / "category" / f"{cat['slug']}.html").write_text(cat_html)
+
+    about_content = (
+        '<h1>About</h1>'
+        '<img class="about-photo" src="/about-photo.jpg" alt="Jack Verrill">'
+        "<p>I am a student at the University of Michigan and London School of "
+        "Economics, passionate about the intersection of politics and emerging "
+        "technology. I've written op-eds and long-form essays about those "
+        "things, and more, in publications including the <em>Boston Globe</em>, "
+        "<em>Daily Caller</em>, and <em>Midwestern Citizen</em>. You can find "
+        "it all on this website.</p>"
+    )
+    about_html = template.render(
+        title="About",
+        site_name=SITE_NAME,
+        root="/",
+        year=year,
+        categories=categories,
+        content=about_content,
+    )
+    (BUILD_DIR / "about.html").write_text(about_html)
 
     print(f"Built {len(pieces)} piece(s) into {BUILD_DIR}")
 
