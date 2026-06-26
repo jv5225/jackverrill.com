@@ -21,9 +21,11 @@ def slugify(stem: str) -> str:
 def piece_list_html(pieces, heading):
     html = f"<h1>{heading}</h1><ul class=\"piece-list\">"
     for p in pieces:
+        href = p["external_url"] or f'/{p["slug"]}.html'
+        target = ' target="_blank" rel="noopener"' if p["external_url"] else ""
         html += (
             "<li>"
-            f'<a class="piece-title" href="/{p["slug"]}.html">{p["title"]}</a>'
+            f'<a class="piece-title" href="{href}"{target}>{p["title"]}</a>'
             + (f'<span class="piece-meta">{p["date"]}</span>' if p["date"] else "")
             + (f"<p>{p['summary']}</p>" if p["summary"] else "")
             + "</li>"
@@ -53,6 +55,7 @@ def main():
         date = post.get("date", "")
         summary = post.get("summary", "")
         category = post.get("category", "")
+        external_url = post.get("external_url", "")
         slug = slugify(md_path.stem)
         html_body = markdown.markdown(post.content, extensions=["extra"])
 
@@ -78,6 +81,7 @@ def main():
                 "summary": summary,
                 "slug": slug,
                 "category": category,
+                "external_url": external_url,
             }
         )
 
