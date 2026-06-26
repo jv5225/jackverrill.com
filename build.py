@@ -83,15 +83,15 @@ def main():
 
     pieces.sort(key=lambda p: str(p["date"]), reverse=True)
 
-    index_html = template.render(
-        title="Home",
+    writing_html = template.render(
+        title="Writing",
         site_name=SITE_NAME,
         root="/",
         year=year,
         categories=categories,
         content=piece_list_html(pieces, "Writing"),
     )
-    (BUILD_DIR / "index.html").write_text(index_html)
+    (BUILD_DIR / "writing.html").write_text(writing_html)
 
     for cat in categories:
         cat_pieces = [p for p in pieces if slugify(p["category"]) == cat["slug"]]
@@ -106,7 +106,6 @@ def main():
         (BUILD_DIR / "category" / f"{cat['slug']}.html").write_text(cat_html)
 
     about_content = (
-        '<h1>About</h1>'
         '<img class="about-photo" src="/about-photo.jpg" alt="Jack Verrill">'
         "<p>I am a student at the University of Michigan and London School of "
         "Economics, passionate about the intersection of politics and emerging "
@@ -114,16 +113,21 @@ def main():
         "things, and more, in publications including the <em>Boston Globe</em>, "
         "<em>Daily Caller</em>, and <em>Midwestern Citizen</em>. You can find "
         "it all on this website.</p>"
+        '<p class="social-links">'
+        '<a href="https://twitter.com/jack_verri11" target="_blank" rel="noopener">Twitter</a>'
+        ' · <a href="https://www.linkedin.com/in/jackverrill/" target="_blank" rel="noopener">LinkedIn</a>'
+        ' · <a href="mailto:jverrill5225@outlook.com">jverrill5225@outlook.com</a>'
+        "</p>"
     )
-    about_html = template.render(
-        title="About",
+    index_html = template.render(
+        title="Home",
         site_name=SITE_NAME,
         root="/",
         year=year,
         categories=categories,
         content=about_content,
     )
-    (BUILD_DIR / "about.html").write_text(about_html)
+    (BUILD_DIR / "index.html").write_text(index_html)
 
     print(f"Built {len(pieces)} piece(s) into {BUILD_DIR}")
 

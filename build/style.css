@@ -46,6 +46,11 @@ header {
   color: var(--accent);
 }
 
+.social-links {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
 .about-photo {
   width: 100%;
   max-width: 320px;
