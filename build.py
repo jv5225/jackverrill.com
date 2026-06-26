@@ -109,7 +109,7 @@ def main():
         )
         (BUILD_DIR / "category" / f"{cat['slug']}.html").write_text(cat_html)
 
-    about_content = (
+    about_main = (
         '<img class="about-photo" src="/about-photo.jpg" alt="Jack Verrill">'
         "<p>I am a student at the University of Michigan and London School of "
         "Economics, passionate about the intersection of politics and emerging "
@@ -122,10 +122,19 @@ def main():
         ' · <a href="https://www.linkedin.com/in/jackverrill/" target="_blank" rel="noopener">LinkedIn</a>'
         ' · <a href="mailto:jverrill5225@outlook.com">jverrill5225@outlook.com</a>'
         "</p>"
-        '<h2>Latest tweet</h2>'
+    )
+    tweet_sidebar = (
+        '<div class="tweet-box">'
         '<a class="twitter-timeline" data-tweet-limit="1" data-chrome="noheader nofooter noborders transparent" '
         'href="https://twitter.com/jack_verri11?ref_src=twsrc%5Etfw">Tweets by jack_verri11</a>'
         '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
+        "</div>"
+    )
+    about_content = (
+        '<div class="home-layout">'
+        f'<div class="home-main">{about_main}</div>'
+        f'<div class="home-sidebar">{tweet_sidebar}</div>'
+        "</div>"
     )
     index_html = template.render(
         title="Home",

@@ -76,6 +76,41 @@ main {
   padding: 1rem 1.5rem 3rem;
 }
 
+main:has(.home-layout) {
+  max-width: 920px;
+}
+
+.home-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.home-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.home-sidebar {
+  flex: 0 0 280px;
+}
+
+.tweet-box {
+  border: 1px solid #e5e2dc;
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+@media (max-width: 700px) {
+  .home-layout {
+    flex-direction: column;
+  }
+  .home-sidebar {
+    flex-basis: auto;
+    width: 100%;
+  }
+}
+
 footer {
   max-width: var(--max-width);
   margin: 0 auto;
