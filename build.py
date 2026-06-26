@@ -122,6 +122,10 @@ def main():
         ' · <a href="https://www.linkedin.com/in/jackverrill/" target="_blank" rel="noopener">LinkedIn</a>'
         ' · <a href="mailto:jverrill5225@outlook.com">jverrill5225@outlook.com</a>'
         "</p>"
+        '<h2>Latest tweet</h2>'
+        '<a class="twitter-timeline" data-tweet-limit="1" data-chrome="noheader nofooter noborders transparent" '
+        'href="https://twitter.com/jack_verri11?ref_src=twsrc%5Etfw">Tweets by jack_verri11</a>'
+        '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
     )
     index_html = template.render(
         title="Home",
