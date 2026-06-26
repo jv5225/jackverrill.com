@@ -77,12 +77,12 @@ main {
 }
 
 main:has(.home-layout) {
-  max-width: 920px;
+  max-width: 1100px;
 }
 
 .home-layout {
   display: flex;
-  gap: 2rem;
+  gap: 2.5rem;
   align-items: flex-start;
 }
 
@@ -92,13 +92,14 @@ main:has(.home-layout) {
 }
 
 .home-sidebar {
-  flex: 0 0 280px;
+  flex: 0 0 420px;
 }
 
 .tweet-box {
   border: 1px solid #e5e2dc;
   border-radius: 8px;
-  padding: 0.75rem;
+  padding: 1.25rem;
+  min-height: 300px;
 }
 
 @media (max-width: 700px) {

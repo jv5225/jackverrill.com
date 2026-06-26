@@ -125,7 +125,8 @@ def main():
     )
     tweet_sidebar = (
         '<div class="tweet-box">'
-        '<a class="twitter-timeline" data-tweet-limit="1" data-chrome="noheader nofooter noborders transparent" '
+        '<a class="twitter-timeline" data-tweet-limit="1" data-width="400" data-height="500" '
+        'data-chrome="noheader nofooter noborders transparent" '
         'href="https://twitter.com/jack_verri11?ref_src=twsrc%5Etfw">Tweets by jack_verri11</a>'
         '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
         "</div>"
