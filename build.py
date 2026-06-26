@@ -10,7 +10,7 @@ from jinja2 import Environment, FileSystemLoader
 ROOT = Path(__file__).parent
 WRITING_DIR = ROOT / "writing"
 BUILD_DIR = ROOT / "build"
-SITE_NAME = "Your Writing"
+SITE_NAME = "Jack Verrill"
 
 
 def slugify(stem: str) -> str:
