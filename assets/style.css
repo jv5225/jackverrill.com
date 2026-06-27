@@ -47,10 +47,11 @@ header {
 
 .category-nav a {
   font-size: 0.72rem;
+  font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   text-decoration: none;
-  color: var(--muted);
+  color: var(--text);
 }
 
 .category-nav a:hover {
