@@ -139,41 +139,34 @@ main {
   padding: 0.5rem 1.5rem 4rem;
 }
 
-main:has(.home-hero) {
-  max-width: 1000px;
+main:has(.home-grid) {
+  max-width: 1100px;
 }
 
-.home-hero {
-  padding-bottom: 1.5rem;
-  margin-bottom: 1.5rem;
-  border-bottom: 2px solid var(--line);
-  overflow: hidden;
-}
-
-.home-hero .about-photo {
-  float: right;
-  width: 320px;
-  margin: 0 0 1rem 1.75rem;
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
 }
 
 .home-bio {
-  font-size: 1rem;
+  font-size: 0.95rem;
   line-height: 1.7;
+}
+
+.home-bio .about-photo {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 1.25rem;
 }
 
 .home-bio p:first-child {
   margin-top: 0;
 }
 
-.home-boxes {
-  display: flex;
-  gap: 2rem;
-  align-items: flex-start;
-}
-
 .featured-box,
 .tweet-box {
-  flex: 1 1 0;
   min-width: 0;
   border: 1px solid var(--line);
   padding: 1.5rem;
@@ -211,13 +204,13 @@ main:has(.home-hero) {
   margin-bottom: 0;
 }
 
-@media (max-width: 760px) {
-  .home-hero .about-photo {
-    width: 120px;
-    margin: 0 0 0.75rem 1rem;
+@media (max-width: 900px) {
+  .home-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
-  .home-boxes {
-    flex-direction: column;
+  .home-bio .about-photo {
+    max-width: 320px;
   }
 }
 

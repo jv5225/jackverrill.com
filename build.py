@@ -159,10 +159,9 @@ def main():
         )
         (BUILD_DIR / "category" / f"{cat['slug']}.html").write_text(cat_html)
 
-    hero = (
-        '<div class="home-hero">'
-        '<img class="about-photo" src="/about-photo.jpg" alt="Jack Verrill">'
+    bio_col = (
         '<div class="home-bio">'
+        '<img class="about-photo" src="/about-photo.jpg" alt="Jack Verrill">'
         "<p>I am a student at the University of Michigan and London School of "
         "Economics, passionate about the intersection of politics and emerging "
         "technology. I've written op-eds and long-form essays about those "
@@ -174,7 +173,6 @@ def main():
         ' · <a href="https://www.linkedin.com/in/jackverrill/" target="_blank" rel="noopener">LinkedIn</a>'
         ' · <a href="mailto:jverrill5225@outlook.com">jverrill5225@outlook.com</a>'
         "</p>"
-        "</div>"
         "</div>"
     )
 
@@ -204,8 +202,8 @@ def main():
     )
 
     about_content = (
-        f"{hero}"
-        '<div class="home-boxes">'
+        '<div class="home-grid">'
+        f"{bio_col}"
         f"{featured_box}"
         f"{tweet_box}"
         "</div>"
