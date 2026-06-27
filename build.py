@@ -194,9 +194,13 @@ def main():
     tweet_box = (
         '<div class="tweet-box">'
         '<h2>Recent tweets</h2>'
-        '<a class="twitter-timeline" data-width="400" data-height="340" '
+        '<a id="tweet-timeline" class="twitter-timeline" data-width="400" data-height="340" '
         'data-chrome="noheader nofooter noborders transparent" '
         'href="https://twitter.com/jack_verri11?ref_src=twsrc%5Etfw">Tweets by jack_verri11</a>'
+        "<script>"
+        'document.getElementById("tweet-timeline").setAttribute('
+        '"data-theme", document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark");'
+        "</script>"
         '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
         "</div>"
     )
