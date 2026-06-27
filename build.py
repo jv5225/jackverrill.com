@@ -17,6 +17,12 @@ CATEGORY_ORDER = ["On AI", "On Foreign Policy", "On Electoral Politics"]
 
 # (quote, author) keyed by category title. Omit a category to show no epigraph.
 EPIGRAPHS = {
+    "On AI": (
+        "How much of what then seemed so wonderful and unattainable has "
+        "become insignificant, and what there was then is now forever "
+        "unattainable.",
+        "Leo Tolstoy, <em>Anna Karenina</em>",
+    ),
     "On Electoral Politics": (
         "Kürti had believed in politics, and politics had deceived him, "
         "the way politics deceives everyone.",
