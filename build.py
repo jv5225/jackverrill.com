@@ -23,6 +23,11 @@ EPIGRAPHS = {
         "unattainable.",
         "Leo Tolstoy, <em>Anna Karenina</em>",
     ),
+    "On Foreign Policy": (
+        "It seems to me it's always the evil we refuse to see that does "
+        "us the greatest harm.",
+        "Robert Baer",
+    ),
     "On Electoral Politics": (
         "Kürti had believed in politics, and politics had deceived him, "
         "the way politics deceives everyone.",
