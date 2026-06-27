@@ -218,8 +218,8 @@ def main():
     bio_col = (
         '<div class="home-bio">'
         '<img class="about-photo" src="/about-photo.jpg" alt="Jack Verrill">'
-        "<p>LSE and UofM, writing about politics, emerging technology, "
-        "national security, and how it all comes together.</p>"
+        "<p>LSE and University of Michigan, writing about politics, emerging "
+        "technology, national security, and how it all comes together.</p>"
         '<p class="social-links">'
         '<a href="https://twitter.com/jack_verri11" target="_blank" rel="noopener">Twitter</a>'
         ' · <a href="https://www.linkedin.com/in/jackverrill/" target="_blank" rel="noopener">LinkedIn</a>'
@@ -265,8 +265,9 @@ def main():
         year=year,
         categories=categories,
         description=(
-            "Jack Verrill — LSE and UofM — writing about politics, emerging "
-            "technology, national security, and how it all comes together."
+            "Jack Verrill — LSE and University of Michigan — writing about "
+            "politics, emerging technology, national security, and how it "
+            "all comes together."
         ),
         page_url=f"{SITE_URL}/",
         content=about_content,
