@@ -31,16 +31,12 @@
 <body>
   <header>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light or dark mode">☀</button>
-    <div class="dateline">
-      <span>Dispatches on politics &amp; technology</span>
-      <span>Falmouth · Ann Arbor · London</span>
-    </div>
-    <a class="site-name" href="{{ root }}index.html">{{ site_name }}</a>
     <p class="social-links masthead-social">
       <a href="https://x.com/jack_verri11" target="_blank" rel="noopener">X</a>
       · <a href="https://www.linkedin.com/in/jackverrill/" target="_blank" rel="noopener">LinkedIn</a>
       · <a href="mailto:jverrill5225@outlook.com">jverrill5225@outlook.com</a>
     </p>
+    <a class="site-name" href="{{ root }}index.html">{{ site_name }}</a>
     <nav class="category-nav">
       {% for cat in categories %}
       <a href="{{ root }}category/{{ cat.slug }}.html">{{ cat.title }}</a>

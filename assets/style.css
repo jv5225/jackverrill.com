@@ -68,19 +68,6 @@ header:has(+ main .ledger) {
   max-width: 860px;
 }
 
-.dateline {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.62rem;
-  font-weight: bold;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 0.5rem;
-  margin-bottom: 0.75rem;
-}
-
 .site-name {
   font-size: 2.4rem;
   font-weight: bold;
@@ -93,7 +80,9 @@ header:has(+ main .ledger) {
 }
 
 .masthead-social {
-  margin: 0.4rem 0 0.7rem;
+  margin: 0 0 0.75rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--line);
   font-size: 0.72rem;
 }
 
