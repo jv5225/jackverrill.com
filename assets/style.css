@@ -137,21 +137,16 @@ main:has(.home-hero) {
 
 .home-boxes {
   display: flex;
+  flex-direction: column;
   gap: 2.5rem;
-  align-items: flex-start;
 }
 
 .featured-box,
 .tweet-box {
-  flex: 1 1 0;
   min-width: 0;
   border: 1px solid var(--line);
   padding: 1.5rem;
   background: var(--surface);
-}
-
-.featured-box {
-  min-height: 300px;
 }
 
 .featured-box h2,
