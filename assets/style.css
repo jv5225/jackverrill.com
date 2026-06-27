@@ -14,6 +14,7 @@
 body {
   margin: 0;
   font-family: var(--mono);
+  font-weight: bold;
   color: var(--text);
   background: var(--bg);
   line-height: 1.75;
