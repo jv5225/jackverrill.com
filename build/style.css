@@ -1,23 +1,23 @@
 :root {
-  --text: #f0ede4;
-  --muted: #8a857a;
-  --bg: #0f0f0e;
-  --surface: #1a1916;
-  --line: #2c2a26;
-  --accent: #c34a40;
-  --excerpt: #b5ad9e;
+  --text: #ddccac;
+  --muted: #9a8a6c;
+  --bg: #211b13;
+  --surface: #2b241a;
+  --line: #3c3328;
+  --accent: #c2674a;
+  --excerpt: #b3a482;
   --mono: 'Courier New', Courier, 'American Typewriter', monospace;
   --max-width: 680px;
 }
 
 :root[data-theme="light"] {
-  --text: #000000;
-  --muted: #6b6862;
-  --bg: #f7f4ec;
-  --surface: #efebe0;
-  --line: #d6d1c2;
-  --accent: #9c2b27;
-  --excerpt: #5c5648;
+  --text: #3a2f23;
+  --muted: #7a6a52;
+  --bg: #ece2cf;
+  --surface: #e2d6bf;
+  --line: #cdbfa3;
+  --accent: #9e4b35;
+  --excerpt: #6a5a44;
 }
 
 .theme-toggle {
@@ -135,11 +135,11 @@ header:has(+ main .home-grid) {
   max-width: 320px;
   display: block;
   margin: 0 0 1.75rem;
-  filter: grayscale(30%) contrast(1.05) brightness(1.05);
+  filter: grayscale(25%) sepia(25%) contrast(1.02) brightness(1.02);
 }
 
 :root[data-theme="light"] .about-photo {
-  filter: grayscale(55%) contrast(1.1) sepia(15%);
+  filter: grayscale(35%) sepia(35%) contrast(1.05);
 }
 
 .category-tag {
