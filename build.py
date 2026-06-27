@@ -224,11 +224,6 @@ def main():
         f'<img class="about-photo" src="{photo_src}" alt="Jack Verrill">'
         "<p>LSE and University of Michigan, writing about politics, emerging "
         "technology, national security, and how it all comes together.</p>"
-        '<p class="social-links">'
-        '<a href="https://twitter.com/jack_verri11" target="_blank" rel="noopener">Twitter</a>'
-        ' · <a href="https://www.linkedin.com/in/jackverrill/" target="_blank" rel="noopener">LinkedIn</a>'
-        ' · <a href="mailto:jverrill5225@outlook.com">jverrill5225@outlook.com</a>'
-        "</p>"
         "</div>"
     )
 
@@ -250,7 +245,7 @@ def main():
 
     tweet_box = (
         '<div class="tweet-box">'
-        '<h2>Recent tweets</h2>'
+        '<h2>Recent posts</h2>'
         '<div id="tweet-embed"></div>'
         "</div>"
     )

@@ -92,6 +92,11 @@ header:has(+ main .ledger) {
   padding: 0.25rem 0;
 }
 
+.masthead-social {
+  margin: 0.4rem 0 0.7rem;
+  font-size: 0.72rem;
+}
+
 .category-nav {
   margin-top: 0.6rem;
   display: flex;
