@@ -1,10 +1,10 @@
 :root {
-  --text: #f0eee9;
-  --muted: #a8b3a4;
-  --bg: #28332a;
-  --surface: #324035;
-  --line: #475448;
-  --accent: #a8332f;
+  --text: #1c1c1a;
+  --muted: #6b6862;
+  --bg: #f7f4ec;
+  --surface: #efebe0;
+  --line: #d6d1c2;
+  --accent: #9c2b27;
   --mono: 'Courier New', Courier, 'American Typewriter', monospace;
   --max-width: 680px;
 }
