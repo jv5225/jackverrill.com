@@ -97,26 +97,16 @@ def pieces_ul_html(pieces):
 
 
 def category_sidebar(current_slug, categories):
-    html = '<aside class="cat-sidebar"><div class="rail-block"><h2>More sections</h2>'
-    for cat in categories:
-        if cat["slug"] == current_slug:
-            continue
-        html += f'<a class="rail-section" href="/category/{cat["slug"]}.html">{cat["title"]}</a>'
-        ep = EPIGRAPHS.get(cat["title"])
-        if ep:
-            quote, author = ep
-            html += f'<p class="rail-quote"><em>&ldquo;{quote}&rdquo;</em></p>'
-    html += "</div>"
-    html += (
+    return (
+        '<aside class="cat-sidebar">'
         '<div class="rail-block"><h2>Elsewhere</h2>'
         '<p class="social-links">'
         '<a href="https://twitter.com/jack_verri11" target="_blank" rel="noopener">Twitter</a>'
         ' · <a href="https://www.linkedin.com/in/jackverrill/" target="_blank" rel="noopener">LinkedIn</a>'
         ' · <a href="mailto:jverrill5225@outlook.com">jverrill5225@outlook.com</a>'
         "</p></div>"
+        "</aside>"
     )
-    html += "</aside>"
-    return html
 
 
 def piece_list_html(pieces, heading, epigraph=None):
