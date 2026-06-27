@@ -222,9 +222,9 @@ a:hover { border-bottom-color: var(--accent); }
 }
 
 .section-head .section-label {
-  font-size: 0.72rem;
+  font-size: 2rem;
   font-weight: bold;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--accent);
   margin: 0 0 1.6rem;
@@ -232,11 +232,11 @@ a:hover { border-bottom-color: var(--accent); }
 
 .section-head .epigraph {
   margin: 0 auto;
-  max-width: 32rem;
+  max-width: 30rem;
   font-style: italic;
   font-weight: normal;
-  font-size: 1.4rem;
-  line-height: 1.55;
+  font-size: 1.05rem;
+  line-height: 1.5;
   color: var(--text);
 }
 
