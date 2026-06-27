@@ -4,6 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ title }} — {{ site_name }}</title>
+  {% if description %}<meta name="description" content="{{ description|e }}">{% endif %}
+  <link rel="canonical" href="{{ page_url|e }}">
+
+  <meta property="og:title" content="{{ title|e }} — {{ site_name|e }}">
+  {% if description %}<meta property="og:description" content="{{ description|e }}">{% endif %}
+  <meta property="og:type" content="{{ og_type or 'website' }}">
+  <meta property="og:url" content="{{ page_url|e }}">
+  <meta property="og:image" content="https://jackverrill.com/about-photo.jpg">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{ title|e }} — {{ site_name|e }}">
+  {% if description %}<meta name="twitter:description" content="{{ description|e }}">{% endif %}
+
   <link rel="stylesheet" href="{{ root }}style.css">
 </head>
 <body>

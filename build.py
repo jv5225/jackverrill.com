@@ -11,11 +11,16 @@ ROOT = Path(__file__).parent
 WRITING_DIR = ROOT / "writing"
 BUILD_DIR = ROOT / "build"
 SITE_NAME = "Jack Verrill"
+SITE_URL = "https://jackverrill.com"
 CATEGORY_ORDER = ["On AI", "On Foreign Policy", "On Electoral Politics"]
 
 
 def slugify(stem: str) -> str:
     return re.sub(r"[^a-z0-9-]+", "-", stem.lower()).strip("-")
+
+
+def strip_tags(html: str) -> str:
+    return re.sub(r"<[^>]+>", "", html).strip()
 
 
 def piece_list_html(pieces, heading):
@@ -65,6 +70,9 @@ def main():
             root="/",
             year=year,
             categories=categories,
+            description=strip_tags(summary),
+            page_url=f"{SITE_URL}/{slug}.html",
+            og_type="article",
             content=(
                 f"<h1>{title}</h1>"
                 + (f'<p class="piece-meta">{date}</p>' if date else "")
@@ -93,6 +101,8 @@ def main():
         root="/",
         year=year,
         categories=categories,
+        description=f"All writing by {SITE_NAME}.",
+        page_url=f"{SITE_URL}/writing.html",
         content=piece_list_html(pieces, "Writing"),
     )
     (BUILD_DIR / "writing.html").write_text(writing_html)
@@ -105,6 +115,8 @@ def main():
             root="/",
             year=year,
             categories=categories,
+            description=f"{cat['title']}: writing by {SITE_NAME}.",
+            page_url=f"{SITE_URL}/category/{cat['slug']}.html",
             content=piece_list_html(cat_pieces, cat["title"]),
         )
         (BUILD_DIR / "category" / f"{cat['slug']}.html").write_text(cat_html)
@@ -143,6 +155,12 @@ def main():
         root="/",
         year=year,
         categories=categories,
+        description=(
+            "Jack Verrill is a student at the University of Michigan and "
+            "London School of Economics writing on AI, foreign policy, and "
+            "electoral politics."
+        ),
+        page_url=f"{SITE_URL}/",
         content=about_content,
     )
     (BUILD_DIR / "index.html").write_text(index_html)
