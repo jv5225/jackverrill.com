@@ -1,9 +1,9 @@
 :root {
   --text: #f0eee9;
-  --muted: #9a948a;
-  --bg: #1c1b19;
-  --surface: #252320;
-  --line: #3a3733;
+  --muted: #a8b3a4;
+  --bg: #28332a;
+  --surface: #324035;
+  --line: #475448;
   --accent: #a8332f;
   --mono: 'Courier New', Courier, 'American Typewriter', monospace;
   --max-width: 680px;
