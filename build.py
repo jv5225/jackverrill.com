@@ -1,5 +1,6 @@
 import datetime
 import hashlib
+import json
 import re
 import shutil
 from pathlib import Path
@@ -13,7 +14,28 @@ WRITING_DIR = ROOT / "writing"
 BUILD_DIR = ROOT / "build"
 SITE_NAME = "Jack Verrill"
 SITE_URL = "https://jackverrill.com"
+HOME_TITLE = "Jack Verrill — Writing on Politics, Technology & National Security"
 CATEGORY_ORDER = ["On AI", "On Foreign Policy", "On Electoral Politics"]
+
+PERSON_LD = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": SITE_NAME,
+    "url": SITE_URL + "/",
+    "jobTitle": "Writer",
+    "description": (
+        "LSE and University of Michigan, writing about politics, emerging "
+        "technology, national security, and how it all comes together."
+    ),
+    "alumniOf": [
+        "The London School of Economics and Political Science",
+        "University of Michigan",
+    ],
+    "sameAs": [
+        "https://x.com/jack_verri11",
+        "https://www.linkedin.com/in/jackverrill/",
+    ],
+}
 
 # (quote, author) keyed by category title. Omit a category to show no epigraph.
 EPIGRAPHS = {
@@ -50,6 +72,26 @@ def slugify(stem: str) -> str:
 
 def strip_tags(html: str) -> str:
     return re.sub(r"<[^>]+>", "", html).strip()
+
+
+def article_ld(piece, page_url):
+    data = {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "headline": piece["title"],
+        "url": page_url,
+        "author": {"@type": "Person", "name": SITE_NAME, "url": SITE_URL + "/"},
+        "mainEntityOfPage": page_url,
+    }
+    if piece["date"]:
+        data["datePublished"] = str(piece["date"])
+    if piece["summary"]:
+        data["description"] = strip_tags(piece["summary"])
+    if piece["external_url"]:
+        data["isBasedOn"] = piece["external_url"]
+    if piece["publication"]:
+        data["publisher"] = {"@type": "Organization", "name": piece["publication"]}
+    return json.dumps(data, ensure_ascii=False)
 
 
 def publication_for(url: str) -> str:
@@ -136,7 +178,24 @@ def main():
     photo_bytes = (ROOT / "assets" / "about-photo.jpg").read_bytes()
     photo_version = hashlib.md5(photo_bytes).hexdigest()[:10]
     env.globals["photo_version"] = photo_version
-    photo_src = f"/about-photo.jpg?v={photo_version}"
+
+    # Generate a WebP copy and capture intrinsic dimensions for the <img>.
+    from PIL import Image
+
+    with Image.open(ROOT / "assets" / "about-photo.jpg") as im:
+        photo_w, photo_h = im.size
+        im.save(BUILD_DIR / "about-photo.webp", "WEBP", quality=82)
+
+    photo_picture = (
+        '<picture class="about-photo-pic">'
+        f'<source srcset="/about-photo.webp?v={photo_version}" type="image/webp">'
+        f'<img class="about-photo" src="/about-photo.jpg?v={photo_version}" '
+        f'width="{photo_w}" height="{photo_h}" '
+        'loading="eager" decoding="async" alt="Jack Verrill">'
+        "</picture>"
+    )
+
+    PERSON_LD["image"] = f"{SITE_URL}/about-photo.jpg?v={photo_version}"
     template = env.get_template("base.html")
     year = datetime.date.today().year
 
@@ -155,16 +214,31 @@ def main():
         slug = slugify(md_path.stem)
         html_body = markdown.markdown(post.content, extensions=["extra"])
 
+        piece = {
+            "title": title,
+            "date": date,
+            "summary": summary,
+            "slug": slug,
+            "category": category,
+            "external_url": external_url,
+            "featured": featured,
+            "publication": publication,
+        }
+        pieces.append(piece)
+
         meta = format_meta(publication, date)
+        piece_url = f"{SITE_URL}/{slug}.html"
         page_html = template.render(
             title=title,
+            full_title=f"{title} — {SITE_NAME}",
             site_name=SITE_NAME,
             root="/",
             year=year,
             categories=categories,
             description=strip_tags(summary),
-            page_url=f"{SITE_URL}/{slug}.html",
+            page_url=piece_url,
             og_type="article",
+            json_ld=article_ld(piece, piece_url),
             content=(
                 f"<h1>{title}</h1>"
                 + (f'<p class="piece-meta">{meta}</p>' if meta else "")
@@ -174,23 +248,11 @@ def main():
         )
         (BUILD_DIR / f"{slug}.html").write_text(page_html)
 
-        pieces.append(
-            {
-                "title": title,
-                "date": date,
-                "summary": summary,
-                "slug": slug,
-                "category": category,
-                "external_url": external_url,
-                "featured": featured,
-                "publication": publication,
-            }
-        )
-
     pieces.sort(key=lambda p: str(p["date"]), reverse=True)
 
     writing_html = template.render(
         title="Writing",
+        full_title=f"All Writing — {SITE_NAME}",
         site_name=SITE_NAME,
         root="/",
         year=year,
@@ -209,6 +271,7 @@ def main():
         )
         cat_html = template.render(
             title=cat["title"],
+            full_title=f"{cat['title']} — Writing by {SITE_NAME}",
             site_name=SITE_NAME,
             root="/",
             year=year,
@@ -221,7 +284,7 @@ def main():
 
     bio_col = (
         '<div class="home-bio">'
-        f'<img class="about-photo" src="{photo_src}" alt="Jack Verrill">'
+        f"{photo_picture}"
         "<p>LSE and University of Michigan, writing about politics, emerging "
         "technology, national security, and how it all comes together.</p>"
         "</div>"
@@ -259,6 +322,7 @@ def main():
     )
     index_html = template.render(
         title="Home",
+        full_title=HOME_TITLE,
         site_name=SITE_NAME,
         root="/",
         year=year,
@@ -269,9 +333,34 @@ def main():
             "all comes together."
         ),
         page_url=f"{SITE_URL}/",
+        json_ld=json.dumps(PERSON_LD, ensure_ascii=False),
         content=about_content,
     )
     (BUILD_DIR / "index.html").write_text(index_html)
+
+    # --- sitemap.xml ---
+    today = datetime.date.today().isoformat()
+    urls = [(f"{SITE_URL}/", today, "1.0"), (f"{SITE_URL}/writing.html", today, "0.6")]
+    for cat in categories:
+        urls.append((f"{SITE_URL}/category/{cat['slug']}.html", today, "0.8"))
+    for p in pieces:
+        lastmod = str(p["date"]) if p["date"] else today
+        urls.append((f"{SITE_URL}/{p['slug']}.html", lastmod, "0.7"))
+
+    sitemap = ['<?xml version="1.0" encoding="UTF-8"?>']
+    sitemap.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
+    for loc, lastmod, priority in urls:
+        sitemap.append(
+            f"  <url><loc>{loc}</loc><lastmod>{lastmod}</lastmod>"
+            f"<priority>{priority}</priority></url>"
+        )
+    sitemap.append("</urlset>")
+    (BUILD_DIR / "sitemap.xml").write_text("\n".join(sitemap) + "\n")
+
+    # --- robots.txt ---
+    (BUILD_DIR / "robots.txt").write_text(
+        "User-agent: *\nAllow: /\n\nSitemap: " + SITE_URL + "/sitemap.xml\n"
+    )
 
     print(f"Built {len(pieces)} piece(s) into {BUILD_DIR}")
 

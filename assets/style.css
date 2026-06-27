@@ -156,9 +156,8 @@ header:has(+ main .ledger) {
 
 .about-photo {
   width: 100%;
-  max-width: 320px;
+  height: auto;
   display: block;
-  margin: 0 0 1.75rem;
   filter: grayscale(25%) sepia(25%) contrast(1.02) brightness(1.02);
 }
 
@@ -206,7 +205,7 @@ main:has(.ledger) {
   overflow: hidden;
 }
 
-.home-bio .about-photo {
+.home-bio .about-photo-pic {
   float: left;
   width: 220px;
   margin: 0 1.5rem 0.5rem 0;
@@ -260,8 +259,8 @@ main:has(.ledger) {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
-  .home-bio .about-photo {
-    max-width: 320px;
+  .home-bio .about-photo-pic {
+    width: 220px;
   }
 }
 

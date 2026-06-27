@@ -12,20 +12,23 @@
       } catch (e) {}
     })();
   </script>
-  <title>{{ title }} — {{ site_name }}</title>
+  {% set ftitle = full_title if full_title else title ~ " — " ~ site_name %}
+  <title>{{ ftitle }}</title>
   {% if description %}<meta name="description" content="{{ description|e }}">{% endif %}
   <link rel="canonical" href="{{ page_url|e }}">
 
-  <meta property="og:title" content="{{ title|e }} — {{ site_name|e }}">
+  <meta property="og:title" content="{{ ftitle|e }}">
   {% if description %}<meta property="og:description" content="{{ description|e }}">{% endif %}
   <meta property="og:type" content="{{ og_type or 'website' }}">
   <meta property="og:url" content="{{ page_url|e }}">
   <meta property="og:image" content="https://jackverrill.com/about-photo.jpg?v={{ photo_version }}">
+  <meta property="og:site_name" content="{{ site_name|e }}">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="{{ title|e }} — {{ site_name|e }}">
+  <meta name="twitter:title" content="{{ ftitle|e }}">
   {% if description %}<meta name="twitter:description" content="{{ description|e }}">{% endif %}
 
+  {% if json_ld %}<script type="application/ld+json">{{ json_ld }}</script>{% endif %}
   <link rel="stylesheet" href="{{ root }}style.css?v={{ asset_version }}">
 </head>
 <body>
