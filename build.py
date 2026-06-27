@@ -15,6 +15,15 @@ SITE_NAME = "Jack Verrill"
 SITE_URL = "https://jackverrill.com"
 CATEGORY_ORDER = ["On AI", "On Foreign Policy", "On Electoral Politics"]
 
+# (quote, author) keyed by category title. Omit a category to show no epigraph.
+EPIGRAPHS = {
+    "On Electoral Politics": (
+        "Kürti had believed in politics, and politics had deceived him, "
+        "the way politics deceives everyone.",
+        "Imre Kertész",
+    ),
+}
+
 
 def slugify(stem: str) -> str:
     return re.sub(r"[^a-z0-9-]+", "-", stem.lower()).strip("-")
@@ -24,8 +33,17 @@ def strip_tags(html: str) -> str:
     return re.sub(r"<[^>]+>", "", html).strip()
 
 
-def piece_list_html(pieces, heading):
-    html = f"<h1>{heading}</h1><ul class=\"piece-list\">"
+def piece_list_html(pieces, heading, epigraph=None):
+    html = f"<h1>{heading}</h1>"
+    if epigraph:
+        quote, author = epigraph
+        html += (
+            '<blockquote class="epigraph">'
+            f"&ldquo;{quote}&rdquo;"
+            f"<cite>{author}</cite>"
+            "</blockquote>"
+        )
+    html += "<ul class=\"piece-list\">"
     for p in pieces:
         href = p["external_url"] or f'/{p["slug"]}.html'
         target = ' target="_blank" rel="noopener"' if p["external_url"] else ""
@@ -122,7 +140,7 @@ def main():
             categories=categories,
             description=f"{cat['title']}: writing by {SITE_NAME}.",
             page_url=f"{SITE_URL}/category/{cat['slug']}.html",
-            content=piece_list_html(cat_pieces, cat["title"]),
+            content=piece_list_html(cat_pieces, cat["title"], EPIGRAPHS.get(cat["title"])),
         )
         (BUILD_DIR / "category" / f"{cat['slug']}.html").write_text(cat_html)
 
