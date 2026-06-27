@@ -1,5 +1,5 @@
 ---
-title: Democrat Governor Will Soon Learn He Can't Have It All
+title: JB Pritzker Will Soon Learn He Can't Have It All
 date: 2026-06-26
 category: On Electoral Politics
 summary: |
