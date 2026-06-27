@@ -218,12 +218,8 @@ def main():
     bio_col = (
         '<div class="home-bio">'
         '<img class="about-photo" src="/about-photo.jpg" alt="Jack Verrill">'
-        "<p>I am a student at the University of Michigan and London School of "
-        "Economics, passionate about the intersection of politics and emerging "
-        "technology. I've written op-eds and long-form essays about those "
-        "things, and more, in publications including the <em>Boston Globe</em>, "
-        "<em>Daily Caller</em>, and <em>Midwestern Citizen</em>. You can find "
-        "it all on this website.</p>"
+        "<p>LSE and UofM, writing about politics, emerging technology, "
+        "national security, and how it all comes together.</p>"
         '<p class="social-links">'
         '<a href="https://twitter.com/jack_verri11" target="_blank" rel="noopener">Twitter</a>'
         ' · <a href="https://www.linkedin.com/in/jackverrill/" target="_blank" rel="noopener">LinkedIn</a>'
@@ -269,9 +265,8 @@ def main():
         year=year,
         categories=categories,
         description=(
-            "Jack Verrill is a student at the University of Michigan and "
-            "London School of Economics writing on AI, foreign policy, and "
-            "electoral politics."
+            "Jack Verrill — LSE and UofM — writing about politics, emerging "
+            "technology, national security, and how it all comes together."
         ),
         page_url=f"{SITE_URL}/",
         content=about_content,
