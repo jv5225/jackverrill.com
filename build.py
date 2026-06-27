@@ -64,6 +64,7 @@ def main():
         summary = post.get("summary", "")
         category = post.get("category", "")
         external_url = post.get("external_url", "")
+        featured = bool(post.get("featured", False))
         slug = slugify(md_path.stem)
         html_body = markdown.markdown(post.content, extensions=["extra"])
 
@@ -93,6 +94,7 @@ def main():
                 "slug": slug,
                 "category": category,
                 "external_url": external_url,
+                "featured": featured,
             }
         )
 
@@ -124,8 +126,10 @@ def main():
         )
         (BUILD_DIR / "category" / f"{cat['slug']}.html").write_text(cat_html)
 
-    about_main = (
+    hero = (
+        '<div class="home-hero">'
         '<img class="about-photo" src="/about-photo.jpg" alt="Jack Verrill">'
+        '<div class="home-bio">'
         "<p>I am a student at the University of Michigan and London School of "
         "Economics, passionate about the intersection of politics and emerging "
         "technology. I've written op-eds and long-form essays about those "
@@ -137,8 +141,26 @@ def main():
         ' · <a href="https://www.linkedin.com/in/jackverrill/" target="_blank" rel="noopener">LinkedIn</a>'
         ' · <a href="mailto:jverrill5225@outlook.com">jverrill5225@outlook.com</a>'
         "</p>"
+        "</div>"
+        "</div>"
     )
-    tweet_sidebar = (
+
+    featured = next((p for p in pieces if p["featured"]), pieces[0] if pieces else None)
+    if featured:
+        href = featured["external_url"] or f'/{featured["slug"]}.html'
+        target = ' target="_blank" rel="noopener"' if featured["external_url"] else ""
+        featured_box = (
+            '<div class="featured-box">'
+            '<h2>Featured</h2>'
+            f'<a class="featured-title" href="{href}"{target}>{featured["title"]}</a>'
+            + (f'<span class="piece-meta">{featured["date"]}</span>' if featured["date"] else "")
+            + (f'<p class="featured-summary">{featured["summary"]}</p>' if featured["summary"] else "")
+            + "</div>"
+        )
+    else:
+        featured_box = ""
+
+    tweet_box = (
         '<div class="tweet-box">'
         '<h2>Recent tweets</h2>'
         '<a class="twitter-timeline" data-width="400" data-height="600" '
@@ -147,10 +169,12 @@ def main():
         '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
         "</div>"
     )
+
     about_content = (
-        '<div class="home-layout">'
-        f'<div class="home-main">{about_main}</div>'
-        f'<div class="home-sidebar">{tweet_sidebar}</div>'
+        f"{hero}"
+        '<div class="home-boxes">'
+        f"{featured_box}"
+        f"{tweet_box}"
         "</div>"
     )
     index_html = template.render(
