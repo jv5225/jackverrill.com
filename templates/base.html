@@ -20,7 +20,7 @@
   {% if description %}<meta property="og:description" content="{{ description|e }}">{% endif %}
   <meta property="og:type" content="{{ og_type or 'website' }}">
   <meta property="og:url" content="{{ page_url|e }}">
-  <meta property="og:image" content="https://jackverrill.com/about-photo.jpg">
+  <meta property="og:image" content="https://jackverrill.com/about-photo.jpg?v={{ photo_version }}">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="{{ title|e }} — {{ site_name|e }}">

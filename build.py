@@ -133,6 +133,10 @@ def main():
     env = Environment(loader=FileSystemLoader(ROOT / "templates"))
     css_bytes = (ROOT / "assets" / "style.css").read_bytes()
     env.globals["asset_version"] = hashlib.md5(css_bytes).hexdigest()[:10]
+    photo_bytes = (ROOT / "assets" / "about-photo.jpg").read_bytes()
+    photo_version = hashlib.md5(photo_bytes).hexdigest()[:10]
+    env.globals["photo_version"] = photo_version
+    photo_src = f"/about-photo.jpg?v={photo_version}"
     template = env.get_template("base.html")
     year = datetime.date.today().year
 
@@ -217,7 +221,7 @@ def main():
 
     bio_col = (
         '<div class="home-bio">'
-        '<img class="about-photo" src="/about-photo.jpg" alt="Jack Verrill">'
+        f'<img class="about-photo" src="{photo_src}" alt="Jack Verrill">'
         "<p>LSE and University of Michigan, writing about politics, emerging "
         "technology, national security, and how it all comes together.</p>"
         '<p class="social-links">'
