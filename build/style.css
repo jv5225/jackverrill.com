@@ -1,10 +1,11 @@
 :root {
-  --text: #000000;
-  --muted: #6b6862;
-  --bg: #f7f4ec;
-  --surface: #efebe0;
-  --line: #d6d1c2;
-  --accent: #9c2b27;
+  --text: #f0ede4;
+  --muted: #8a857a;
+  --bg: #0f0f0e;
+  --surface: #1a1916;
+  --line: #2c2a26;
+  --accent: #c34a40;
+  --excerpt: #b5ad9e;
   --mono: 'Courier New', Courier, 'American Typewriter', monospace;
   --max-width: 680px;
 }
@@ -84,7 +85,7 @@ header {
   margin: 0 0 1.75rem;
   border: 1px solid var(--accent);
   padding: 6px;
-  filter: grayscale(55%) contrast(1.1) sepia(15%);
+  filter: grayscale(30%) contrast(1.05) brightness(1.05);
 }
 
 .category-tag {
@@ -173,7 +174,7 @@ main:has(.home-hero) {
 }
 
 .featured-summary {
-  color: #5c5648;
+  color: var(--excerpt);
   font-weight: normal;
   margin-bottom: 0;
 }
@@ -303,7 +304,7 @@ a:hover { border-bottom-color: var(--accent); }
 
 .piece-list li p,
 .piece-list li p em {
-  color: #5c5648;
+  color: var(--excerpt);
   font-weight: normal;
 }
 
