@@ -111,24 +111,21 @@ main:has(.home-hero) {
 }
 
 .home-hero {
-  display: flex;
-  gap: 3rem;
-  align-items: flex-start;
-  padding-bottom: 2.5rem;
-  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
   border-bottom: 2px solid var(--line);
+  overflow: hidden;
 }
 
 .home-hero .about-photo {
-  flex: 0 0 210px;
-  margin: 0;
+  float: right;
+  width: 150px;
+  margin: 0 0 1rem 1.75rem;
 }
 
 .home-bio {
-  flex: 1 1 auto;
-  min-width: 0;
-  font-size: 1.1rem;
-  line-height: 1.85;
+  font-size: 1rem;
+  line-height: 1.7;
 }
 
 .home-bio p:first-child {
@@ -137,12 +134,13 @@ main:has(.home-hero) {
 
 .home-boxes {
   display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
+  gap: 2rem;
+  align-items: flex-start;
 }
 
 .featured-box,
 .tweet-box {
+  flex: 1 1 0;
   min-width: 0;
   border: 1px solid var(--line);
   padding: 1.5rem;
@@ -181,13 +179,9 @@ main:has(.home-hero) {
 }
 
 @media (max-width: 760px) {
-  .home-hero {
-    flex-direction: column;
-    align-items: flex-start;
-  }
   .home-hero .about-photo {
-    flex-basis: auto;
-    max-width: 240px;
+    width: 120px;
+    margin: 0 0 0.75rem 1rem;
   }
   .home-boxes {
     flex-direction: column;

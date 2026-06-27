@@ -163,7 +163,7 @@ def main():
     tweet_box = (
         '<div class="tweet-box">'
         '<h2>Recent tweets</h2>'
-        '<a class="twitter-timeline" data-width="400" data-height="600" '
+        '<a class="twitter-timeline" data-width="400" data-height="340" '
         'data-chrome="noheader nofooter noborders transparent" '
         'href="https://twitter.com/jack_verri11?ref_src=twsrc%5Etfw">Tweets by jack_verri11</a>'
         '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
