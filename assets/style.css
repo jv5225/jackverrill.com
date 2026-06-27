@@ -217,8 +217,9 @@ a:hover { border-bottom-color: var(--accent); }
   content: "FILED ";
 }
 
-.piece-list li p {
-  color: var(--muted);
+.piece-list li p,
+.piece-list li p em {
+  color: #a39c8e;
   font-weight: normal;
 }
 
