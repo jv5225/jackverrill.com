@@ -60,13 +60,14 @@ header {
 
 .social-links {
   font-size: 0.78rem;
+  font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--muted);
+  color: var(--text);
 }
 
 .social-links a {
-  color: var(--muted);
+  color: var(--text);
   text-decoration: none;
   border-bottom: 1px solid transparent;
 }
@@ -133,9 +134,10 @@ main:has(.home-layout) {
 
 .tweet-box h2 {
   font-size: 0.72rem;
+  font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--muted);
+  color: var(--text);
   margin: 0 0 1rem;
 }
 
