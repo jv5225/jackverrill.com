@@ -1,4 +1,5 @@
 import datetime
+import hashlib
 import re
 import shutil
 from pathlib import Path
@@ -48,6 +49,8 @@ def main():
     shutil.copy(ROOT / "assets" / "about-photo.jpg", BUILD_DIR / "about-photo.jpg")
 
     env = Environment(loader=FileSystemLoader(ROOT / "templates"))
+    css_bytes = (ROOT / "assets" / "style.css").read_bytes()
+    env.globals["asset_version"] = hashlib.md5(css_bytes).hexdigest()[:10]
     template = env.get_template("base.html")
     year = datetime.date.today().year
 
