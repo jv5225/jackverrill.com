@@ -96,17 +96,26 @@ def pieces_ul_html(pieces):
     return html
 
 
-def category_sidebar(current_slug, categories):
-    return (
-        '<aside class="cat-sidebar">'
-        '<div class="rail-block"><h2>Elsewhere</h2>'
-        '<p class="social-links">'
-        '<a href="https://twitter.com/jack_verri11" target="_blank" rel="noopener">Twitter</a>'
-        ' · <a href="https://www.linkedin.com/in/jackverrill/" target="_blank" rel="noopener">LinkedIn</a>'
-        ' · <a href="mailto:jverrill5225@outlook.com">jverrill5225@outlook.com</a>'
-        "</p></div>"
-        "</aside>"
-    )
+def ledger_html(pieces):
+    html = '<ol class="ledger">'
+    for i, p in enumerate(pieces, 1):
+        href = p["external_url"] or f'/{p["slug"]}.html'
+        target = ' target="_blank" rel="noopener"' if p["external_url"] else ""
+        meta = "<br>".join(
+            str(x) for x in (p["publication"], p["date"]) if x
+        )
+        html += (
+            '<li class="ledger-row">'
+            f'<span class="ledger-num">{i:02d}</span>'
+            '<div class="ledger-body">'
+            f'<a class="ledger-title" href="{href}"{target}>{p["title"]}</a>'
+            + (f'<p class="ledger-excerpt">{p["summary"]}</p>' if p["summary"] else "")
+            + "</div>"
+            + (f'<span class="ledger-meta">{meta}</span>' if meta else "")
+            + "</li>"
+        )
+    html += "</ol>"
+    return html
 
 
 def piece_list_html(pieces, heading, epigraph=None):
@@ -192,10 +201,7 @@ def main():
         cat_pieces = [p for p in pieces if slugify(p["category"]) == cat["slug"]]
         cat_content = (
             section_head_html(cat["title"], EPIGRAPHS.get(cat["title"]))
-            + '<div class="cat-layout">'
-            + f'<div class="cat-main">{pieces_ul_html(cat_pieces)}</div>'
-            + category_sidebar(cat["slug"], categories)
-            + "</div>"
+            + ledger_html(cat_pieces)
         )
         cat_html = template.render(
             title=cat["title"],
