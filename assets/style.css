@@ -112,22 +112,23 @@ main:has(.home-hero) {
 
 .home-hero {
   display: flex;
-  gap: 2.5rem;
-  align-items: center;
+  gap: 3rem;
+  align-items: flex-start;
   padding-bottom: 2.5rem;
   margin-bottom: 2.5rem;
   border-bottom: 2px solid var(--line);
 }
 
 .home-hero .about-photo {
-  flex: 0 0 240px;
+  flex: 0 0 210px;
   margin: 0;
 }
 
 .home-bio {
   flex: 1 1 auto;
   min-width: 0;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
+  line-height: 1.85;
 }
 
 .home-bio p:first-child {
