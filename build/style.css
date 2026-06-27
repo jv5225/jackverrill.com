@@ -64,6 +64,10 @@ header:has(+ main .home-grid) {
   max-width: 1100px;
 }
 
+header:has(+ main .cat-layout) {
+  max-width: 1000px;
+}
+
 .dateline {
   display: flex;
   justify-content: space-between;
@@ -279,6 +283,71 @@ a:hover { border-bottom-color: var(--accent); }
   margin: 0 0 0.6rem;
 }
 
+.cat-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 3rem;
+  align-items: start;
+}
+
+.cat-sidebar {
+  border-left: 1px solid var(--line);
+  padding-left: 2rem;
+}
+
+.rail-block {
+  margin-bottom: 2.25rem;
+}
+
+.rail-block h2 {
+  font-size: 0.72rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin: 0 0 0.9rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.rail-section {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  margin-top: 1rem;
+}
+
+.rail-section:hover {
+  color: var(--accent);
+}
+
+.rail-quote {
+  font-size: 0.78rem;
+  font-style: italic;
+  font-weight: normal;
+  color: var(--excerpt);
+  line-height: 1.5;
+  margin: 0.35rem 0 0;
+}
+
+@media (max-width: 820px) {
+  .cat-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .cat-sidebar {
+    border-left: none;
+    border-top: 2px solid var(--line);
+    padding-left: 0;
+    padding-top: 1.5rem;
+  }
+}
+
 .section-head .epigraph {
   margin: 0 auto;
   max-width: 30rem;
@@ -344,10 +413,6 @@ a:hover { border-bottom-color: var(--accent); }
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-}
-
-.piece-list .piece-meta::before {
-  content: "FILED ";
 }
 
 .piece-list li p,

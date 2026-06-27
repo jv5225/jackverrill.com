@@ -36,6 +36,14 @@ EPIGRAPHS = {
 }
 
 
+# Map a URL domain fragment to a publication name. Add new outlets here.
+PUBLICATIONS = {
+    "bostonglobe.com": "The Boston Globe",
+    "dailycaller.com": "The Daily Caller",
+    "michigandaily.com": "The Michigan Daily",
+}
+
+
 def slugify(stem: str) -> str:
     return re.sub(r"[^a-z0-9-]+", "-", stem.lower()).strip("-")
 
@@ -44,10 +52,22 @@ def strip_tags(html: str) -> str:
     return re.sub(r"<[^>]+>", "", html).strip()
 
 
-def piece_list_html(pieces, heading, epigraph=None):
+def publication_for(url: str) -> str:
+    for domain, name in PUBLICATIONS.items():
+        if domain in url:
+            return name
+    return ""
+
+
+def format_meta(publication: str, date) -> str:
+    parts = [str(x) for x in (publication, date) if x]
+    return " · ".join(parts)
+
+
+def section_head_html(heading, epigraph=None):
     if epigraph:
         quote, author = epigraph
-        html = (
+        return (
             '<header class="section-head">'
             f'<h1 class="section-label">{heading}</h1>'
             '<blockquote class="epigraph">'
@@ -56,21 +76,51 @@ def piece_list_html(pieces, heading, epigraph=None):
             "</blockquote>"
             "</header>"
         )
-    else:
-        html = f"<h1>{heading}</h1>"
-    html += "<ul class=\"piece-list\">"
+    return f"<h1>{heading}</h1>"
+
+
+def pieces_ul_html(pieces):
+    html = "<ul class=\"piece-list\">"
     for p in pieces:
         href = p["external_url"] or f'/{p["slug"]}.html'
         target = ' target="_blank" rel="noopener"' if p["external_url"] else ""
+        meta = format_meta(p["publication"], p["date"])
         html += (
             "<li>"
             f'<a class="piece-title" href="{href}"{target}>{p["title"]}</a>'
-            + (f'<span class="piece-meta">{p["date"]}</span>' if p["date"] else "")
+            + (f'<span class="piece-meta">{meta}</span>' if meta else "")
             + (f"<p>{p['summary']}</p>" if p["summary"] else "")
             + "</li>"
         )
     html += "</ul>"
     return html
+
+
+def category_sidebar(current_slug, categories):
+    html = '<aside class="cat-sidebar"><div class="rail-block"><h2>More sections</h2>'
+    for cat in categories:
+        if cat["slug"] == current_slug:
+            continue
+        html += f'<a class="rail-section" href="/category/{cat["slug"]}.html">{cat["title"]}</a>'
+        ep = EPIGRAPHS.get(cat["title"])
+        if ep:
+            quote, author = ep
+            html += f'<p class="rail-quote"><em>&ldquo;{quote}&rdquo;</em></p>'
+    html += "</div>"
+    html += (
+        '<div class="rail-block"><h2>Elsewhere</h2>'
+        '<p class="social-links">'
+        '<a href="https://twitter.com/jack_verri11" target="_blank" rel="noopener">Twitter</a>'
+        ' · <a href="https://www.linkedin.com/in/jackverrill/" target="_blank" rel="noopener">LinkedIn</a>'
+        ' · <a href="mailto:jverrill5225@outlook.com">jverrill5225@outlook.com</a>'
+        "</p></div>"
+    )
+    html += "</aside>"
+    return html
+
+
+def piece_list_html(pieces, heading, epigraph=None):
+    return section_head_html(heading, epigraph) + pieces_ul_html(pieces)
 
 
 def main():
@@ -98,9 +148,11 @@ def main():
         category = post.get("category", "")
         external_url = post.get("external_url", "")
         featured = bool(post.get("featured", False))
+        publication = post.get("publication", "") or publication_for(external_url)
         slug = slugify(md_path.stem)
         html_body = markdown.markdown(post.content, extensions=["extra"])
 
+        meta = format_meta(publication, date)
         page_html = template.render(
             title=title,
             site_name=SITE_NAME,
@@ -112,7 +164,7 @@ def main():
             og_type="article",
             content=(
                 f"<h1>{title}</h1>"
-                + (f'<p class="piece-meta">{date}</p>' if date else "")
+                + (f'<p class="piece-meta">{meta}</p>' if meta else "")
                 + (f'<a class="category-tag" href="/category/{slugify(category)}.html">{category}</a>' if category else "")
                 + html_body
             ),
@@ -128,6 +180,7 @@ def main():
                 "category": category,
                 "external_url": external_url,
                 "featured": featured,
+                "publication": publication,
             }
         )
 
@@ -147,6 +200,13 @@ def main():
 
     for cat in categories:
         cat_pieces = [p for p in pieces if slugify(p["category"]) == cat["slug"]]
+        cat_content = (
+            section_head_html(cat["title"], EPIGRAPHS.get(cat["title"]))
+            + '<div class="cat-layout">'
+            + f'<div class="cat-main">{pieces_ul_html(cat_pieces)}</div>'
+            + category_sidebar(cat["slug"], categories)
+            + "</div>"
+        )
         cat_html = template.render(
             title=cat["title"],
             site_name=SITE_NAME,
@@ -155,7 +215,7 @@ def main():
             categories=categories,
             description=f"{cat['title']}: writing by {SITE_NAME}.",
             page_url=f"{SITE_URL}/category/{cat['slug']}.html",
-            content=piece_list_html(cat_pieces, cat["title"], EPIGRAPHS.get(cat["title"])),
+            content=cat_content,
         )
         (BUILD_DIR / "category" / f"{cat['slug']}.html").write_text(cat_html)
 
@@ -180,11 +240,12 @@ def main():
     if featured:
         href = featured["external_url"] or f'/{featured["slug"]}.html'
         target = ' target="_blank" rel="noopener"' if featured["external_url"] else ""
+        feat_meta = format_meta(featured["publication"], featured["date"])
         featured_box = (
             '<div class="featured-box">'
             '<h2>Featured</h2>'
             f'<a class="featured-title" href="{href}"{target}>{featured["title"]}</a>'
-            + (f'<span class="piece-meta">{featured["date"]}</span>' if featured["date"] else "")
+            + (f'<span class="piece-meta">{feat_meta}</span>' if feat_meta else "")
             + (f'<p class="featured-summary">{featured["summary"]}</p>' if featured["summary"] else "")
             + "</div>"
         )
