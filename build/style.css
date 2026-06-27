@@ -214,20 +214,35 @@ a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transp
 
 a:hover { border-bottom-color: var(--accent); }
 
-.epigraph {
-  margin: 0 0 2.5rem;
-  padding: 0 0 0 1.25rem;
-  border-left: 2px solid var(--accent);
-  font-style: italic;
-  font-weight: normal;
-  color: #5c5648;
-  max-width: 38rem;
-  line-height: 1.7;
+.section-head {
+  text-align: center;
+  padding-bottom: 2.75rem;
+  margin-bottom: 2.75rem;
+  border-bottom: 2px solid var(--line);
 }
 
-.epigraph cite {
+.section-head .section-label {
+  font-size: 0.72rem;
+  font-weight: bold;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 1.6rem;
+}
+
+.section-head .epigraph {
+  margin: 0 auto;
+  max-width: 32rem;
+  font-style: italic;
+  font-weight: normal;
+  font-size: 1.4rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.section-head .epigraph cite {
   display: block;
-  margin-top: 0.6rem;
+  margin-top: 1.2rem;
   font-style: normal;
   font-size: 0.72rem;
   font-weight: bold;
@@ -236,8 +251,14 @@ a:hover { border-bottom-color: var(--accent); }
   color: var(--muted);
 }
 
-.epigraph cite::before {
+.section-head .epigraph cite::before {
   content: "— ";
+}
+
+@media (max-width: 700px) {
+  .section-head .epigraph {
+    font-size: 1.15rem;
+  }
 }
 
 .piece-list {

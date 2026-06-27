@@ -34,15 +34,19 @@ def strip_tags(html: str) -> str:
 
 
 def piece_list_html(pieces, heading, epigraph=None):
-    html = f"<h1>{heading}</h1>"
     if epigraph:
         quote, author = epigraph
-        html += (
+        html = (
+            '<header class="section-head">'
+            f'<h1 class="section-label">{heading}</h1>'
             '<blockquote class="epigraph">'
             f"&ldquo;{quote}&rdquo;"
             f"<cite>{author}</cite>"
             "</blockquote>"
+            "</header>"
         )
+    else:
+        html = f"<h1>{heading}</h1>"
     html += "<ul class=\"piece-list\">"
     for p in pieces:
         href = p["external_url"] or f'/{p["slug"]}.html'
