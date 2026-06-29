@@ -5,7 +5,7 @@ category: On AI
 type: essay
 publication: Midwestern Citizen
 summary: |
-  <em>"When an American Tomahawk cruise missile struck an Iranian girls' school, killing 168 students and staff on the first day of the US-Iran war, experts wondered whether artificial intelligence was to blame."</em>
+  <em>"The sovereign state system will eventually come back to faith. Not in borders or sovereigns, but faith that the AI systems will protect you, that it will not turn against you, that it is there in the first place."</em>
 external_url: https://midwesterncitizen.substack.com/p/war-made-the-state-and-the-state
 ---
 
