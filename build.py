@@ -211,12 +211,14 @@ def main():
         external_url = post.get("external_url", "")
         featured = bool(post.get("featured", False))
         publication = post.get("publication", "") or publication_for(external_url)
+        piece_type = post.get("type", "article")
         slug = slugify(md_path.stem)
         html_body = markdown.markdown(post.content, extensions=["extra"])
 
         piece = {
             "title": title,
             "date": date,
+            "type": piece_type,
             "summary": summary,
             "slug": slug,
             "category": category,
@@ -265,10 +267,24 @@ def main():
 
     for cat in categories:
         cat_pieces = [p for p in pieces if slugify(p["category"]) == cat["slug"]]
-        cat_content = (
-            section_head_html(cat["title"], EPIGRAPHS.get(cat["title"]))
-            + ledger_html(cat_pieces)
-        )
+        essays = [p for p in cat_pieces if p["type"] == "essay"]
+        articles = [p for p in cat_pieces if p["type"] != "essay"]
+        if essays:
+            body = (
+                '<div class="cat-columns">'
+                '<div class="cat-column">'
+                '<h2 class="cat-column-head">Articles</h2>'
+                + (ledger_html(articles) if articles else '<p class="cat-empty">Nothing here yet.</p>')
+                + "</div>"
+                '<div class="cat-column">'
+                '<h2 class="cat-column-head">Essays</h2>'
+                + ledger_html(essays)
+                + "</div>"
+                "</div>"
+            )
+        else:
+            body = ledger_html(cat_pieces)
+        cat_content = section_head_html(cat["title"], EPIGRAPHS.get(cat["title"])) + body
         cat_html = template.render(
             title=cat["title"],
             full_title=f"{cat['title']} — Writing by {SITE_NAME}",

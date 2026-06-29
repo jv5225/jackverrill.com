@@ -68,6 +68,10 @@ header:has(+ main .ledger) {
   max-width: 860px;
 }
 
+header:has(+ main .cat-columns) {
+  max-width: 1100px;
+}
+
 .site-name {
   font-size: 2.4rem;
   font-weight: bold;
@@ -190,6 +194,10 @@ main:has(.home-grid) {
 
 main:has(.ledger) {
   max-width: 860px;
+}
+
+main:has(.cat-columns) {
+  max-width: 1100px;
 }
 
 .home-grid {
@@ -412,6 +420,49 @@ a:hover { border-bottom-color: var(--accent); }
 @media (max-width: 700px) {
   .section-head .epigraph {
     font-size: 1.15rem;
+  }
+}
+
+.cat-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.cat-column-head {
+  font-size: 0.78rem;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 1.25rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid var(--line);
+}
+
+.cat-empty {
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.cat-column .ledger-row {
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+}
+
+.cat-column .ledger-meta {
+  width: auto;
+  flex-basis: 100%;
+  text-align: left;
+  padding-left: 3.4rem;
+}
+
+@media (max-width: 760px) {
+  .cat-columns {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 }
 
