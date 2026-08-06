@@ -1,23 +1,23 @@
 :root {
-  --text: #ddccac;
-  --muted: #9a8a6c;
-  --bg: #211b13;
-  --surface: #2b241a;
-  --line: #3c3328;
-  --accent: #c2674a;
-  --excerpt: #b3a482;
+  --text: #ffffff;
+  --muted: #999999;
+  --bg: #000000;
+  --surface: #111111;
+  --line: #333333;
+  --accent: #ffffff;
+  --excerpt: #cccccc;
   --mono: 'Courier New', Courier, 'American Typewriter', monospace;
   --max-width: 680px;
 }
 
 :root[data-theme="light"] {
-  --text: #3a2f23;
-  --muted: #7a6a52;
-  --bg: #ece2cf;
-  --surface: #e2d6bf;
-  --line: #cdbfa3;
-  --accent: #9e4b35;
-  --excerpt: #6a5a44;
+  --text: #000000;
+  --muted: #555555;
+  --bg: #ffffff;
+  --surface: #f0f0f0;
+  --line: #cccccc;
+  --accent: #000000;
+  --excerpt: #444444;
 }
 
 .theme-toggle {
