@@ -40,10 +40,13 @@ PERSON_LD = {
 # (quote, author) keyed by category title. Omit a category to show no epigraph.
 EPIGRAPHS = {
     "On AI": (
-        "How much of what then seemed so wonderful and unattainable has "
-        "become insignificant, and what there was then is now forever "
-        "unattainable.",
-        "Leo Tolstoy, <em>Anna Karenina</em>",
+        "I know a girl who woke up in her dorm room with a cough, promptly threw away all her alcohol "
+        "and bulk-ordered magnesium supplements. Getting a minor cold inside a college dormitory is "
+        "intolerable because the part of your spirit that resides online never gets sick. Succumbing "
+        "to the infections of mere mortals is not part of the deal. So, she asks the God she doesn’t "
+        "believe in to eradicate her disease: 5 am runs, perfect skincare, an optimized life from "
+        "sunrise to sundown until the day she lies down for her ten-hour rest and never wakes up.",
+        "<em>Bridges Worth Defending</em>",
     ),
     "On Foreign Policy": (
         "It seems to me it's always the evil we refuse to see that does "
@@ -63,6 +66,7 @@ PUBLICATIONS = {
     "bostonglobe.com": "The Boston Globe",
     "dailycaller.com": "The Daily Caller",
     "michigandaily.com": "The Michigan Daily",
+    "spectator.org": "The American Spectator",
 }
 
 
