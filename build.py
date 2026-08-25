@@ -64,6 +64,7 @@ PUBLICATIONS = {
     "dailycaller.com": "The Daily Caller",
     "michigandaily.com": "The Michigan Daily",
     "spectator.org": "The American Spectator",
+    "dcjournal.com": "DC Journal",
 }
 
 
