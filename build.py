@@ -15,7 +15,7 @@ BUILD_DIR = ROOT / "build"
 SITE_NAME = "Jack Verrill"
 SITE_URL = "https://jackverrill.com"
 HOME_TITLE = "Jack Verrill — Writing on Politics, Technology & National Security"
-CATEGORY_ORDER = ["On AI", "On Foreign Policy", "On Electoral Politics"]
+CATEGORY_ORDER = ["On AI", "On Foreign Policy", "On Electoral Politics", "On Everything Else"]
 
 PERSON_LD = {
     "@context": "https://schema.org",
@@ -55,6 +55,10 @@ EPIGRAPHS = {
         "the way politics deceives everyone.",
         "Imre Kertész",
     ),
+    "On Everything Else": (
+        "A witty saying proves nothing.",
+        "Voltaire",
+    ),
 }
 
 
@@ -65,6 +69,9 @@ PUBLICATIONS = {
     "michigandaily.com": "The Michigan Daily",
     "spectator.org": "The American Spectator",
     "dcjournal.com": "DC Journal",
+    "washingtonexaminer.com": "Washington Examiner",
+    "counterpunch.org": "CounterPunch",
+    "midwesterncitizen.substack.com": "Midwestern Citizen",
 }
 
 
