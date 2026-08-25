@@ -3,7 +3,7 @@ title: America Needs to Onshore Code
 date: 2026-08-13
 category: On AI
 summary: |
-  <em>"America needs to onshore code."</em>
+  <em>"Returning to economic sovereignty requires more than a focus on the past. We are tasked with imagining the economic security prerogatives of the future: physical goods, yes, but also code. Ceding the ground of innovation to Beijing willingly sacrifices our economic sovereignty on the vague ideological premise that we live in a globalized world and that everything will be alright. It won't."</em>
 external_url: https://dcjournal.com/america-needs-to-onshore-code/
 ---
 
