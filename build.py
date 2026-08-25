@@ -55,10 +55,7 @@ EPIGRAPHS = {
         "the way politics deceives everyone.",
         "Imre Kertész",
     ),
-    "On Everything Else": (
-        "A witty saying proves nothing.",
-        "Voltaire",
-    ),
+    "On Everything Else": None,
 }
 
 
