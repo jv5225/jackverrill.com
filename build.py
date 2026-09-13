@@ -68,7 +68,7 @@ PUBLICATIONS = {
     "dcjournal.com": "DC Journal",
     "washingtonexaminer.com": "Washington Examiner",
     "counterpunch.org": "CounterPunch",
-    "effort.news": "Effort",
+    "effort.news": "Effort.News",
     "midwesterncitizen.substack.com": "Midwestern Citizen",
 }
 
