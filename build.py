@@ -69,6 +69,7 @@ PUBLICATIONS = {
     "washingtonexaminer.com": "Washington Examiner",
     "counterpunch.org": "CounterPunch",
     "effort.news": "Effort.News",
+    "pivotbyyv.substack.com": "Pivot",
     "midwesterncitizen.substack.com": "Midwestern Citizen",
 }
 
