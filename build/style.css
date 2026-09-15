@@ -202,14 +202,14 @@ main:has(.cat-columns) {
 
 .home-grid {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr;
+  grid-template-columns: 1.3fr 1fr;
   gap: 2rem;
   align-items: start;
 }
 
 .home-bio {
-  font-size: 0.95rem;
-  line-height: 1.7;
+  font-size: 1.2rem;
+  line-height: 1.8;
   overflow: hidden;
 }
 
@@ -223,16 +223,14 @@ main:has(.cat-columns) {
   margin-top: 0;
 }
 
-.featured-box,
-.tweet-box {
+.featured-box {
   min-width: 0;
   border: 1px solid var(--line);
   padding: 1.5rem;
   background: var(--surface);
 }
 
-.featured-box h2,
-.tweet-box h2 {
+.featured-box h2 {
   font-size: 0.72rem;
   font-weight: bold;
   text-transform: uppercase;

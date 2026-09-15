@@ -29,7 +29,7 @@
   <meta name="twitter:description" content="Jack Verrill — LSE and University of Michigan — writing about politics, emerging technology, national security, and how it all comes together.">
 
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Jack Verrill", "url": "https://jackverrill.com/", "jobTitle": "Writer", "description": "LSE and University of Michigan, writing about politics, emerging technology, national security, and how it all comes together.", "alumniOf": ["The London School of Economics and Political Science", "University of Michigan"], "sameAs": ["https://x.com/jack_verri11", "https://www.linkedin.com/in/jackverrill/"], "image": "https://jackverrill.com/about-photo.jpg?v=d108e2c3b4"}</script>
-  <link rel="stylesheet" href="/style.css?v=75f0b314dc">
+  <link rel="stylesheet" href="/style.css?v=8295cdf66e">
 </head>
 <body>
   <header>
@@ -57,7 +57,7 @@
   </header>
   <main>
     <div class="home-grid"><div class="home-bio"><picture class="about-photo-pic"><source srcset="/about-photo.webp?v=d108e2c3b4" type="image/webp"><img class="about-photo" src="/about-photo.jpg?v=d108e2c3b4" width="446" height="792" loading="eager" decoding="async" alt="Jack Verrill"></picture><p>LSE and University of Michigan, writing about politics, emerging technology, national security, and how it all comes together.</p></div><div class="featured-box"><h2>Featured</h2><a class="featured-title" href="https://www.bostonglobe.com/2026/06/27/opinion/jay-data-center-ai-debate/" target="_blank" rel="noopener">Is Fear of AI Stifling Rural Maine's Economic Rebirth?</a><span class="piece-meta">The Boston Globe · 2026-06-27</span><p class="featured-summary"><em>"The controversy over the Jay data center has been swallowed up by a larger conversation about AI and the power of politics to stop it, killing a strong and possibly economically revitalizing project."</em>
-</p></div><div class="tweet-box"><h2>Recent posts</h2><div id="tweet-embed"></div></div></div>
+</p></div></div>
   </main>
   <footer>
     <p>&copy; 2026 Jack Verrill</p>
@@ -65,24 +65,11 @@
   <script>
     (function () {
       var btn = document.getElementById("theme-toggle");
-      var embed = document.getElementById("tweet-embed");
       function isLight() {
         return document.documentElement.getAttribute("data-theme") === "light";
       }
       function renderToggle() {
         btn.textContent = isLight() ? "☾" : "☀";
-      }
-      function renderTweets() {
-        if (!embed) return;
-        var theme = isLight() ? "light" : "dark";
-        embed.innerHTML =
-          '<a class="twitter-timeline" data-theme="' + theme +
-          '" data-width="400" data-height="340" ' +
-          'data-chrome="noheader nofooter noborders transparent" ' +
-          'href="https://twitter.com/jack_verri11?ref_src=twsrc%5Etfw">Tweets by jack_verri11</a>';
-        if (window.twttr && window.twttr.widgets) {
-          window.twttr.widgets.load(embed);
-        }
       }
       renderToggle();
       btn.addEventListener("click", function () {
@@ -94,20 +81,7 @@
         }
         try { localStorage.setItem("theme", next); } catch (e) {}
         renderToggle();
-        renderTweets();
       });
-      if (embed) {
-        window.twttr = (function (d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0], t = window.twttr || {};
-          if (d.getElementById(id)) return t;
-          js = d.createElement(s); js.id = id;
-          js.src = "https://platform.twitter.com/widgets.js";
-          fjs.parentNode.insertBefore(js, fjs);
-          t._e = []; t.ready = function (f) { t._e.push(f); };
-          return t;
-        }(document, "script", "twitter-wjs"));
-        twttr.ready(function () { renderTweets(); });
-      }
     })();
   </script>
 </body>

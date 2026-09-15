@@ -29,7 +29,7 @@
   <meta name="twitter:description" content="&#34;It is unclear whether Khanna will emerge at the helm of the party, as he lags behind other Democrats in national recognition. But the ideas he set into motion, from new economic patriotism to the Internet Bill of Rights, are significant in and of themselves. They are signs of life for a party seemingly out of ideas.&#34;">
 
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "NewsArticle", "headline": "Fired up and ready for Ro", "url": "https://jackverrill.com/fired-up-and-ready-for-ro.html", "author": {"@type": "Person", "name": "Jack Verrill", "url": "https://jackverrill.com/"}, "mainEntityOfPage": "https://jackverrill.com/fired-up-and-ready-for-ro.html", "datePublished": "2025-09-26", "description": "\"It is unclear whether Khanna will emerge at the helm of the party, as he lags behind other Democrats in national recognition. But the ideas he set into motion, from new economic patriotism to the Internet Bill of Rights, are significant in and of themselves. They are signs of life for a party seemingly out of ideas.\"", "isBasedOn": "https://www.michigandaily.com/opinion/columns/fired-up-and-ready-for-ro/", "publisher": {"@type": "Organization", "name": "The Michigan Daily"}}</script>
-  <link rel="stylesheet" href="/style.css?v=75f0b314dc">
+  <link rel="stylesheet" href="/style.css?v=8295cdf66e">
 </head>
 <body>
   <header>
@@ -65,24 +65,11 @@
   <script>
     (function () {
       var btn = document.getElementById("theme-toggle");
-      var embed = document.getElementById("tweet-embed");
       function isLight() {
         return document.documentElement.getAttribute("data-theme") === "light";
       }
       function renderToggle() {
         btn.textContent = isLight() ? "☾" : "☀";
-      }
-      function renderTweets() {
-        if (!embed) return;
-        var theme = isLight() ? "light" : "dark";
-        embed.innerHTML =
-          '<a class="twitter-timeline" data-theme="' + theme +
-          '" data-width="400" data-height="340" ' +
-          'data-chrome="noheader nofooter noborders transparent" ' +
-          'href="https://twitter.com/jack_verri11?ref_src=twsrc%5Etfw">Tweets by jack_verri11</a>';
-        if (window.twttr && window.twttr.widgets) {
-          window.twttr.widgets.load(embed);
-        }
       }
       renderToggle();
       btn.addEventListener("click", function () {
@@ -94,20 +81,7 @@
         }
         try { localStorage.setItem("theme", next); } catch (e) {}
         renderToggle();
-        renderTweets();
       });
-      if (embed) {
-        window.twttr = (function (d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0], t = window.twttr || {};
-          if (d.getElementById(id)) return t;
-          js = d.createElement(s); js.id = id;
-          js.src = "https://platform.twitter.com/widgets.js";
-          fjs.parentNode.insertBefore(js, fjs);
-          t._e = []; t.ready = function (f) { t._e.push(f); };
-          return t;
-        }(document, "script", "twitter-wjs"));
-        twttr.ready(function () { renderTweets(); });
-      }
     })();
   </script>
 </body>

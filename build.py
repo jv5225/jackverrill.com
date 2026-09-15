@@ -330,18 +330,10 @@ def main():
     else:
         featured_box = ""
 
-    tweet_box = (
-        '<div class="tweet-box">'
-        '<h2>Recent posts</h2>'
-        '<div id="tweet-embed"></div>'
-        "</div>"
-    )
-
     about_content = (
         '<div class="home-grid">'
         f"{bio_col}"
         f"{featured_box}"
-        f"{tweet_box}"
         "</div>"
     )
     index_html = template.render(
