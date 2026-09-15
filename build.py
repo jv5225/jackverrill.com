@@ -309,8 +309,9 @@ def main():
     bio_col = (
         '<div class="home-bio">'
         f"{photo_picture}"
-        "<p>LSE and University of Michigan, writing about politics, emerging "
-        "technology, national security, and how it all comes together.</p>"
+        "<p>Freelance writer who thinks a lot about AI, philosophy, and culture. "
+        'Follow on X <a href="https://x.com/jack_verri11" target="_blank" rel="noopener">@Jack_verri11</a> '
+        'or shoot me an email: <a href="mailto:jverrill5225@outlook.com">jverrill5225@outlook.com</a></p>'
         "</div>"
     )
 
