@@ -1,7 +1,7 @@
 ---
 title: I'm a Conspiracy Theorist
 date: 2025-11-05
-category: On Everything Else
+category: On Free Speech
 external_url: https://www.michigandaily.com/opinion/columns/im-a-conspiracy-theorist/
 ---
 

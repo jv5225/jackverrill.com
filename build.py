@@ -15,7 +15,7 @@ BUILD_DIR = ROOT / "build"
 SITE_NAME = "Jack Verrill"
 SITE_URL = "https://jackverrill.com"
 HOME_TITLE = "Jack Verrill — Writing on Politics, Technology & National Security"
-CATEGORY_ORDER = ["On AI", "On Foreign Policy", "On Electoral Politics", "On Everything Else"]
+CATEGORY_ORDER = ["On AI", "On Foreign Policy", "On Electoral Politics", "On Free Speech", "On Everything Else"]
 
 PERSON_LD = {
     "@context": "https://schema.org",
@@ -55,6 +55,7 @@ EPIGRAPHS = {
         "the way politics deceives everyone.",
         "Imre Kertész",
     ),
+    "On Free Speech": None,
     "On Everything Else": None,
 }
 
