@@ -99,10 +99,10 @@ def format_date(date) -> str:
     if not date:
         return ""
     if hasattr(date, "strftime"):
-        return date.strftime("%b %Y")
+        return date.strftime("%B %Y")
     try:
         d = datetime.date.fromisoformat(str(date))
-        return d.strftime("%b %Y")
+        return d.strftime("%B %Y")
     except Exception:
         return str(date)
 
