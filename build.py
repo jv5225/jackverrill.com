@@ -370,6 +370,94 @@ def main():
         "</picture>"
     )
 
+    # --- Reading page ---
+    READING = [
+        ("Fiction", [
+            ("Anna Karenina", "Leo Tolstoy"),
+            ("The Great Gatsby", "F. Scott Fitzgerald"),
+            ("For Whom the Bell Tolls", "Ernest Hemingway"),
+            ("The Sun Also Rises", "Ernest Hemingway"),
+            ("Old Man and the Sea", "Ernest Hemingway"),
+            ("A Farewell to Arms", "Ernest Hemingway"),
+            ("A Moveable Feast", "Ernest Hemingway"),
+            ("Killer Angels", "Michael Shaara"),
+            ("The Things They Carried", "Tim O’Brien"),
+        ]),
+        ("Philosophy", [
+            ("The Republic", "Plato"),
+            ("Nicomachean Ethics", "Aristotle"),
+            ("Beyond Good and Evil", "Friedrich Nietzsche"),
+            ("The Prince", "Niccolò Machiavelli"),
+            ("Violence and the Sacred", "René Girard"),
+        ]),
+        ("Essays", [
+            ("The Straussian Moment", "Peter Thiel"),
+            ("Three Waves of Modernity", "Leo Strauss"),
+            ("Nuclear Peace as the Mock Version of the Gospel", "René Girard"),
+            ("The Cardamom Game", "Will Manidis"),
+            ("Nobody Walks to Canterbury", "Will Manidis"),
+            ("The Pyramid and the Tomb", "Will Manidis"),
+            ("The Great Zombification", "Owen Yingling"),
+            ("The League of Extraordinary Gentlemen – Tucker Carlson", "Tucker Carlson"),
+            ("Closure of the Internet", "Archtotherium"),
+        ]),
+        ("Nonfiction", [
+            ("Too Big to Fail", "Andrew Ross Sorkin"),
+            ("Against the Machine", "Paul Kingsnorth"),
+            ("Rise and Kill First", "Ronen Bergman"),
+            ("The Creature from Jekyll Island", "G. Edward Griffin"),
+            ("Four", "Scott Galloway"),
+            ("The Contrarian", "Max Chafkin"),
+            ("Philosopher in the Valley", "Michael Steinberger"),
+            ("The Power of Myth", "Joseph Campbell"),
+            ("Camelot’s Court", "Robert Dallek"),
+            ("An Unfinished Life", "Robert Dallek"),
+            ("Greenlights", "Matthew McConaughey"),
+            ("Man’s Search for Meaning", "Viktor Frankl"),
+            ("See No Evil", "Robert Baer"),
+            ("Pilgrim’s Way", "John Buchan"),
+        ]),
+    ]
+
+    sections_html = ""
+    for section_title, books in READING:
+        items = "".join(
+            f'<li><span class="reading-title">{title}</span>'
+            f'<span class="reading-author">{author}</span></li>'
+            for title, author in books
+        )
+        sections_html += (
+            f'<div class="reading-section">'
+            f'<h2 class="reading-head">{section_title}</h2>'
+            f'<ul class="reading-list">{items}</ul>'
+            f'</div>'
+        )
+
+    reading_content = (
+        '<div class="page page--topic">'
+        '<div class="top-bar">'
+        '<a class="site-name-link" href="/index.html">Jack Verrill</a>'
+        + CONTACT_PILLS
+        + "</div>"
+        '<div class="cat-heading">'
+        '<h1 class="cat-title" style="font-size:32px">Some of the stuff I’ve been reading</h1>'
+        "</div>"
+        f'<div class="reading-sections">{sections_html}</div>'
+        "</div>"
+    )
+    reading_html = template.render(
+        title="Reading",
+        full_title=f"Reading — {SITE_NAME}",
+        site_name=SITE_NAME,
+        root="/",
+        year=year,
+        categories=categories,
+        description=f"Books and essays {SITE_NAME} has been reading.",
+        page_url=f"{SITE_URL}/reading.html",
+        content=reading_content,
+    )
+    (BUILD_DIR / "reading.html").write_text(reading_html)
+
     home_content = (
         '<div class="page page--home">'
         '<div class="intro">'
@@ -387,6 +475,9 @@ def main():
         + '<div class="by-topic">'
         '<h2 class="section-head">By topic</h2>'
         f'<ul class="topic-list">{topic_rows_html}</ul>'
+        "</div>"
+        '<div class="reading-link">'
+        '<a href="/reading.html">Some of the stuff I’ve been reading</a>'
         "</div>"
         "</div>"
     )

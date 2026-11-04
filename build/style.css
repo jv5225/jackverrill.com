@@ -213,5 +213,28 @@ a.piece-item:hover .piece-title { text-decoration-color: #1E1D1B; }
 .other-links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
 .other-links a { font-style: italic; }
 
+/* ── Reading page ── */
+.reading-sections { display: flex; flex-direction: column; gap: 40px; }
+.reading-section { display: flex; flex-direction: column; gap: 12px; }
+h2.reading-head { font-size: 18px; font-weight: 600; }
+.reading-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #E8E4DD;
+}
+.reading-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 0;
+  border-bottom: 1px solid #E8E4DD;
+}
+.reading-title { font-size: 18px; line-height: 1.4; }
+.reading-author { font-size: 15px; color: #76716A; }
+
+/* ── Homepage reading link ── */
+.reading-link { font-size: 18px; }
+
 /* ── Individual piece pages (unchanged) ── */
 main { max-width: 560px; margin: 0 auto; padding: 48px 24px 80px; }
