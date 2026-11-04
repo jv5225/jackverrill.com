@@ -16,6 +16,14 @@ SITE_NAME = "Jack Verrill"
 SITE_URL = "https://jackverrill.com"
 HOME_TITLE = "Jack Verrill — Writing on Politics, Technology & National Security"
 CATEGORY_ORDER = ["On AI", "On Foreign Policy", "On Electoral Politics", "On Free Speech", "On Everything Else"]
+ROMAN = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x"]
+CATEGORIES_NO_SUMMARY = {"on-everything-else"}
+CONTACT_PILLS = (
+    '<div class="pills">'
+    '<a class="pill" href="mailto:jverrill5225@outlook.com">Email</a>'
+    '<a class="pill" href="https://x.com/jack_verri11" target="_blank" rel="noopener">X @jack_verri11</a>'
+    "</div>"
+)
 
 PERSON_LD = {
     "@context": "https://schema.org",
@@ -37,16 +45,15 @@ PERSON_LD = {
     ],
 }
 
-# (quote, author) keyed by category title. Omit a category to show no epigraph.
 EPIGRAPHS = {
     "On AI": (
         "How much of what then seemed so wonderful and unattainable has "
         "become insignificant, and what there was then is now forever "
         "unattainable.",
-        "Leo Tolstoy, <em>Anna Karenina</em>",
+        "Leo Tolstoy, Anna Karenina",
     ),
     "On Foreign Policy": (
-        "It seems to me it's always the evil we refuse to see that does "
+        "It seems to me it’s always the evil we refuse to see that does "
         "us the greatest harm.",
         "Robert Baer",
     ),
@@ -59,8 +66,6 @@ EPIGRAPHS = {
     "On Everything Else": None,
 }
 
-
-# Map a URL domain fragment to a publication name. Add new outlets here.
 PUBLICATIONS = {
     "bostonglobe.com": "The Boston Globe",
     "dailycaller.com": "The Daily Caller",
@@ -83,6 +88,32 @@ def strip_tags(html: str) -> str:
     return re.sub(r"<[^>]+>", "", html).strip()
 
 
+def publication_for(url: str) -> str:
+    for domain, name in PUBLICATIONS.items():
+        if domain in url:
+            return name
+    return ""
+
+
+def format_date(date) -> str:
+    if not date:
+        return ""
+    if hasattr(date, "strftime"):
+        return date.strftime("%b %Y")
+    try:
+        d = datetime.date.fromisoformat(str(date))
+        return d.strftime("%b %Y")
+    except Exception:
+        return str(date)
+
+
+def clean_summary(html_summary: str) -> str:
+    text = re.sub(r"<[^>]+>", "", html_summary)
+    for ch in ["“", "”", "‘", "’"]:
+        text = text.replace(ch, "")
+    return text.strip().strip('"').strip("'").strip()
+
+
 def article_ld(piece, page_url):
     data = {
         "@context": "https://schema.org",
@@ -103,74 +134,39 @@ def article_ld(piece, page_url):
     return json.dumps(data, ensure_ascii=False)
 
 
-def publication_for(url: str) -> str:
-    for domain, name in PUBLICATIONS.items():
-        if domain in url:
-            return name
-    return ""
+def piece_item_html(p: dict, show_summary: bool = True) -> str:
+    href = p["external_url"] or f'/{p["slug"]}.html'
+    target = ' target="_blank" rel="noopener"' if p["external_url"] else ""
+    date_str = format_date(p["date"])
+    meta_parts = []
+    if p["publication"]:
+        meta_parts.append(f'<em>{p["publication"]}</em>')
+    if date_str:
+        meta_parts.append(date_str)
+    meta_html = ", ".join(meta_parts)
+    summary_html = ""
+    if show_summary and p["summary"]:
+        clean = clean_summary(p["summary"])
+        if clean:
+            summary_html = f'<p class="piece-summary">{clean}</p>'
+    return (
+        f'<a class="piece-item" href="{href}"{target}>'
+        f'<span class="piece-title">{p["title"]}</span>'
+        + (f'<span class="piece-meta">{meta_html}</span>' if meta_html else "")
+        + summary_html
+        + "</a>"
+    )
 
 
-def format_meta(publication: str, date) -> str:
-    parts = [str(x) for x in (publication, date) if x]
-    return " · ".join(parts)
-
-
-def section_head_html(heading, epigraph=None):
-    if epigraph:
-        quote, author = epigraph
-        return (
-            '<header class="section-head">'
-            f'<h1 class="section-label">{heading}</h1>'
-            '<blockquote class="epigraph">'
-            f"&ldquo;{quote}&rdquo;"
-            f"<cite>{author}</cite>"
-            "</blockquote>"
-            "</header>"
-        )
-    return f"<h1>{heading}</h1>"
-
-
-def pieces_ul_html(pieces):
-    html = "<ul class=\"piece-list\">"
-    for p in pieces:
-        href = p["external_url"] or f'/{p["slug"]}.html'
-        target = ' target="_blank" rel="noopener"' if p["external_url"] else ""
-        meta = format_meta(p["publication"], p["date"])
-        html += (
-            "<li>"
-            f'<a class="piece-title" href="{href}"{target}>{p["title"]}</a>'
-            + (f'<span class="piece-meta">{meta}</span>' if meta else "")
-            + (f"<p>{p['summary']}</p>" if p["summary"] else "")
-            + "</li>"
-        )
-    html += "</ul>"
-    return html
-
-
-def ledger_html(pieces):
-    html = '<ol class="ledger">'
-    for i, p in enumerate(pieces, 1):
-        href = p["external_url"] or f'/{p["slug"]}.html'
-        target = ' target="_blank" rel="noopener"' if p["external_url"] else ""
-        meta = "<br>".join(
-            str(x) for x in (p["publication"], p["date"]) if x
-        )
-        html += (
-            '<li class="ledger-row">'
-            f'<span class="ledger-num">{i:02d}</span>'
-            '<div class="ledger-body">'
-            f'<a class="ledger-title" href="{href}"{target}>{p["title"]}</a>'
-            + (f'<p class="ledger-excerpt">{p["summary"]}</p>' if p["summary"] else "")
-            + "</div>"
-            + (f'<span class="ledger-meta">{meta}</span>' if meta else "")
-            + "</li>"
-        )
-    html += "</ol>"
-    return html
-
-
-def piece_list_html(pieces, heading, epigraph=None):
-    return section_head_html(heading, epigraph) + pieces_ul_html(pieces)
+def piece_group_html(pieces: list, label=None, show_summary: bool = True) -> str:
+    items = "".join(f"<li>{piece_item_html(p, show_summary)}</li>" for p in pieces)
+    label_html = f'<h2 class="group-label">{label}</h2>' if label else ""
+    return (
+        '<div class="piece-group">'
+        + label_html
+        + f'<ul class="piece-list-new">{items}</ul>'
+        + "</div>"
+    )
 
 
 def main():
@@ -188,21 +184,10 @@ def main():
     photo_version = hashlib.md5(photo_bytes).hexdigest()[:10]
     env.globals["photo_version"] = photo_version
 
-    # Generate a WebP copy and capture intrinsic dimensions for the <img>.
     from PIL import Image
 
     with Image.open(ROOT / "assets" / "about-photo.jpg") as im:
-        photo_w, photo_h = im.size
         im.save(BUILD_DIR / "about-photo.webp", "WEBP", quality=82)
-
-    photo_picture = (
-        '<picture class="about-photo-pic">'
-        f'<source srcset="/about-photo.webp?v={photo_version}" type="image/webp">'
-        f'<img class="about-photo" src="/about-photo.jpg?v={photo_version}" '
-        f'width="{photo_w}" height="{photo_h}" '
-        'loading="eager" decoding="async" alt="Jack Verrill">'
-        "</picture>"
-    )
 
     PERSON_LD["image"] = f"{SITE_URL}/about-photo.jpg?v={photo_version}"
     template = env.get_template("base.html")
@@ -210,6 +195,7 @@ def main():
 
     categories = [{"title": c, "slug": slugify(c)} for c in CATEGORY_ORDER]
 
+    # --- Load all pieces ---
     pieces = []
     for md_path in sorted(WRITING_DIR.glob("*.md")):
         post = frontmatter.load(md_path)
@@ -237,7 +223,14 @@ def main():
         }
         pieces.append(piece)
 
-        meta = format_meta(publication, date)
+        # Individual piece page
+        date_str = format_date(date)
+        meta_parts = []
+        if publication:
+            meta_parts.append(f'<em>{publication}</em>')
+        if date_str:
+            meta_parts.append(date_str)
+        meta_html = ", ".join(meta_parts)
         piece_url = f"{SITE_URL}/{slug}.html"
         page_html = template.render(
             title=title,
@@ -251,49 +244,73 @@ def main():
             og_type="article",
             json_ld=article_ld(piece, piece_url),
             content=(
+                "<main>"
                 f"<h1>{title}</h1>"
-                + (f'<p class="piece-meta">{meta}</p>' if meta else "")
+                + (f'<p class="piece-meta">{meta_html}</p>' if meta_html else "")
                 + (f'<a class="category-tag" href="/category/{slugify(category)}.html">{category}</a>' if category else "")
                 + html_body
+                + "</main>"
             ),
         )
         (BUILD_DIR / f"{slug}.html").write_text(page_html)
 
     pieces.sort(key=lambda p: str(p["date"]), reverse=True)
 
-    writing_html = template.render(
-        title="Writing",
-        full_title=f"All Writing — {SITE_NAME}",
-        site_name=SITE_NAME,
-        root="/",
-        year=year,
-        categories=categories,
-        description=f"All writing by {SITE_NAME}.",
-        page_url=f"{SITE_URL}/writing.html",
-        content=piece_list_html(pieces, "Writing"),
-    )
-    (BUILD_DIR / "writing.html").write_text(writing_html)
-
-    for cat in categories:
+    # --- Category pages ---
+    for idx, cat in enumerate(categories):
+        roman = ROMAN[idx] if idx < len(ROMAN) else str(idx + 1)
         cat_pieces = [p for p in pieces if slugify(p["category"]) == cat["slug"]]
+        no_summary = cat["slug"] in CATEGORIES_NO_SUMMARY
+
         essays = [p for p in cat_pieces if p["type"] == "essay"]
         articles = [p for p in cat_pieces if p["type"] != "essay"]
+
         if essays:
-            body = (
-                '<div class="cat-columns">'
-                '<div class="cat-column">'
-                '<h2 class="cat-column-head">Articles</h2>'
-                + (ledger_html(articles) if articles else '<p class="cat-empty">Nothing here yet.</p>')
-                + "</div>"
-                '<div class="cat-column">'
-                '<h2 class="cat-column-head">Essays</h2>'
-                + ledger_html(essays)
-                + "</div>"
-                "</div>"
+            pieces_html = (
+                piece_group_html(articles, "Articles", not no_summary)
+                + piece_group_html(essays, "Essays", not no_summary)
             )
         else:
-            body = ledger_html(cat_pieces)
-        cat_content = section_head_html(cat["title"], EPIGRAPHS.get(cat["title"])) + body
+            pieces_html = piece_group_html(cat_pieces, None, not no_summary)
+
+        # Epigraph
+        epigraph_html = ""
+        epigraph = EPIGRAPHS.get(cat["title"])
+        if epigraph:
+            quote, citation = epigraph
+            epigraph_html = (
+                '<blockquote class="epigraph">'
+                f'“{quote}”'
+                f'<cite class="epigraph-cite">— {citation}</cite>'
+                "</blockquote>"
+            )
+
+        # Other topics
+        other_cats = [c for c in categories if c["slug"] != cat["slug"]]
+        other_links = "".join(
+            f'<a href="/category/{c["slug"]}.html">{c["title"]}</a>'
+            for c in other_cats
+        )
+
+        cat_content = (
+            '<div class="page page--topic">'
+            '<div class="top-bar">'
+            '<a class="site-name-link" href="/index.html">Jack Verrill</a>'
+            + CONTACT_PILLS
+            + "</div>"
+            '<div class="cat-heading">'
+            f'<span class="roman-label">{roman}</span>'
+            f'<h1 class="cat-title">{cat["title"]}</h1>'
+            + epigraph_html
+            + "</div>"
+            + f'<div class="pieces">{pieces_html}</div>'
+            + '<div class="other-topics">'
+            + '<span class="other-label">Other topics</span>'
+            + f'<div class="other-links">{other_links}</div>'
+            + "</div>"
+            + "</div>"
+        )
+
         cat_html = template.render(
             title=cat["title"],
             full_title=f"{cat['title']} — Writing by {SITE_NAME}",
@@ -307,37 +324,73 @@ def main():
         )
         (BUILD_DIR / "category" / f"{cat['slug']}.html").write_text(cat_html)
 
-    bio_col = (
-        '<div class="home-bio">'
-        f"{photo_picture}"
-        "<p>Freelance writer who thinks a lot about AI, philosophy, and culture. "
-        'Follow on X <a href="https://x.com/jack_verri11" target="_blank" rel="noopener">@Jack_verri11</a> '
-        'or shoot me an email: <a href="mailto:jverrill5225@outlook.com">jverrill5225@outlook.com</a></p>'
-        "</div>"
-    )
+    # --- Homepage ---
+    cat_counts = {
+        cat["slug"]: sum(1 for p in pieces if slugify(p["category"]) == cat["slug"])
+        for cat in categories
+    }
+
+    topic_rows_html = ""
+    for idx, cat in enumerate(categories):
+        roman = ROMAN[idx] if idx < len(ROMAN) else str(idx + 1)
+        count = cat_counts[cat["slug"]]
+        topic_rows_html += (
+            f'<li><a href="/category/{cat["slug"]}.html">'
+            f'<span class="roman">{roman}</span>'
+            f'<span class="topic-name">{cat["title"]}</span>'
+            f'<span class="topic-count">{count}</span>'
+            "</a></li>"
+        )
 
     featured = next((p for p in pieces if p["featured"]), pieces[0] if pieces else None)
+    feat_html = ""
     if featured:
-        href = featured["external_url"] or f'/{featured["slug"]}.html'
-        target = ' target="_blank" rel="noopener"' if featured["external_url"] else ""
-        feat_meta = format_meta(featured["publication"], featured["date"])
-        featured_box = (
-            '<div class="featured-box">'
-            '<h2>Featured</h2>'
-            f'<a class="featured-title" href="{href}"{target}>{featured["title"]}</a>'
-            + (f'<span class="piece-meta">{feat_meta}</span>' if feat_meta else "")
-            + (f'<p class="featured-summary">{featured["summary"]}</p>' if featured["summary"] else "")
+        feat_href = featured["external_url"] or f'/{featured["slug"]}.html'
+        feat_target = ' target="_blank" rel="noopener"' if featured["external_url"] else ""
+        feat_date_str = format_date(featured["date"])
+        feat_meta_parts = []
+        if featured["publication"]:
+            feat_meta_parts.append(f'<em>{featured["publication"]}</em>')
+        if feat_date_str:
+            feat_meta_parts.append(feat_date_str)
+        feat_meta_html = ", ".join(feat_meta_parts)
+        feat_html = (
+            '<div class="featured-section">'
+            '<h2 class="section-head">Featured</h2>'
+            f'<a class="feat-link" href="{feat_href}"{feat_target}>{featured["title"]}</a>'
+            + (f'<p class="feat-meta">{feat_meta_html}</p>' if feat_meta_html else "")
             + "</div>"
         )
-    else:
-        featured_box = ""
 
-    about_content = (
-        '<div class="home-grid">'
-        f"{bio_col}"
-        f"{featured_box}"
+    photo_html = (
+        '<picture class="photo-wrap">'
+        f'<source srcset="/about-photo.webp?v={photo_version}" type="image/webp">'
+        f'<img class="photo" src="/about-photo.jpg?v={photo_version}" '
+        'width="240" height="240" loading="eager" decoding="async" alt="Jack Verrill">'
+        "</picture>"
+    )
+
+    home_content = (
+        '<div class="page page--home">'
+        '<div class="intro">'
+        + photo_html
+        + '<div class="name-row">'
+        '<h1 class="site-title">Jack Verrill</h1>'
+        + CONTACT_PILLS
+        + "</div>"
+        "<p>I’m a freelance writer. I think a lot about AI, philosophy, and culture, "
+        "and I write about politics, technology, and national security. I study at LSE "
+        "and the University of Michigan, and split my time between Falmouth, Ann Arbor, "
+        "and London.</p>"
+        "</div>"
+        + feat_html
+        + '<div class="by-topic">'
+        '<h2 class="section-head">By topic</h2>'
+        f'<ul class="topic-list">{topic_rows_html}</ul>'
+        "</div>"
         "</div>"
     )
+
     index_html = template.render(
         title="Home",
         full_title=HOME_TITLE,
@@ -346,19 +399,17 @@ def main():
         year=year,
         categories=categories,
         description=(
-            "Jack Verrill — LSE and University of Michigan — writing about "
-            "politics, emerging technology, national security, and how it "
-            "all comes together."
+            "Jack Verrill — freelance writer on AI, philosophy, politics, and national security."
         ),
         page_url=f"{SITE_URL}/",
         json_ld=json.dumps(PERSON_LD, ensure_ascii=False),
-        content=about_content,
+        content=home_content,
     )
     (BUILD_DIR / "index.html").write_text(index_html)
 
     # --- sitemap.xml ---
     today = datetime.date.today().isoformat()
-    urls = [(f"{SITE_URL}/", today, "1.0"), (f"{SITE_URL}/writing.html", today, "0.6")]
+    urls = [(f"{SITE_URL}/", today, "1.0")]
     for cat in categories:
         urls.append((f"{SITE_URL}/category/{cat['slug']}.html", today, "0.8"))
     for p in pieces:
