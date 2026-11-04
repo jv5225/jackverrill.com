@@ -441,6 +441,7 @@ def main():
         + "</div>"
         '<div class="cat-heading">'
         '<h1 class="cat-title" style="font-size:32px">Some of the stuff I’ve been reading</h1>'
+        '<p style="font-style:italic;color:#76716A;font-size:16px">in no particular order</p>'
         "</div>"
         f'<div class="reading-sections">{sections_html}</div>'
         "</div>"
