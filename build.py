@@ -466,10 +466,7 @@ def main():
         '<h1 class="site-title">Jack Verrill</h1>'
         + CONTACT_PILLS
         + "</div>"
-        "<p>I’m a freelance writer. I think a lot about AI, philosophy, and culture, "
-        "and I write about politics, technology, and national security. I study at LSE "
-        "and the University of Michigan, and split my time between Falmouth, Ann Arbor, "
-        "and London.</p>"
+        "<p>Freelance writer thinking a lot about technology, philosophy, and politics.</p>"
         "</div>"
         + feat_html
         + '<div class="by-topic">'
