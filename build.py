@@ -393,7 +393,7 @@ def main():
         ("Essays", [
             ("The Straussian Moment", "Peter Thiel"),
             ("Three Waves of Modernity", "Leo Strauss"),
-            ("Nuclear Peace as the Mock Version of the Gospel", "René Girard"),
+            ("Nuclear Peace as the Mock Version of the Gospel", "Jean-Pierre Dupuy"),
             ("The Cardamom Game", "Will Manidis"),
             ("Nobody Walks to Canterbury", "Will Manidis"),
             ("The Pyramid and the Tomb", "Will Manidis"),
