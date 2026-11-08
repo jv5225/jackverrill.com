@@ -469,7 +469,6 @@ def main():
         + "</div>"
         "<p>Freelance writer thinking a lot about technology, philosophy, and politics.</p>"
         "</div>"
-        + feat_html
         + '<div class="by-topic">'
         '<h2 class="section-head">By topic</h2>'
         f'<ul class="topic-list">{topic_rows_html}</ul>'
