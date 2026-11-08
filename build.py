@@ -398,7 +398,7 @@ def main():
             ("Nobody Walks to Canterbury", "Will Manidis"),
             ("The Pyramid and the Tomb", "Will Manidis"),
             ("The Great Zombification", "Owen Yingling"),
-            ("The League of Extraordinary Gentlemen – Tucker Carlson", "Tucker Carlson"),
+            ("The League of Extraordinary Gentlemen", "Tucker Carlson"),
             ("Closure of the Internet", "Archtotherium"),
         ]),
         ("Nonfiction", [
