@@ -299,9 +299,7 @@ def main():
             + CONTACT_PILLS
             + "</div>"
             '<div class="cat-heading">'
-            f'<span class="roman-label">{roman}</span>'
             f'<h1 class="cat-title">{cat["title"]}</h1>'
-            + epigraph_html
             + "</div>"
             + f'<div class="pieces">{pieces_html}</div>'
             + '<div class="other-topics">'
