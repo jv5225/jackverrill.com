@@ -410,9 +410,9 @@ def main():
         count = cat_counts[cat["slug"]]
         topic_rows_html += (
             f'<li><a href="/category/{cat["slug"]}.html">'
-            f'<span class="roman">{roman}</span>'
-            f' <span class="topic-name">{cat["title"]}</span>'
-            f' <span class="topic-count">{count}</span>'
+            f'<span class="roman" aria-hidden="true">{roman}</span>'
+            f'<span class="topic-name">{cat["title"]}</span>'
+            f'<span class="topic-count" aria-hidden="true">{count}</span>'
             "</a></li>"
         )
 
@@ -452,7 +452,7 @@ def main():
         '<h1 class="site-title">Jack Verrill</h1>'
         + CONTACT_PILLS
         + "</div>"
-        "<p>Freelance writer thinking a lot about technology, philosophy, and politics.</p>"
+        "<p>Jack Verrill writes about artificial intelligence, U.S. foreign policy, electoral politics, and free speech. His work has appeared in the Boston Globe, Reason, The Daily Caller, and elsewhere.</p>"
         "</div>"
         + '<div class="by-topic">'
         '<h2 class="section-head">By topic</h2>'
