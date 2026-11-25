@@ -337,8 +337,8 @@ def main():
         topic_rows_html += (
             f'<li><a href="/category/{cat["slug"]}.html">'
             f'<span class="roman">{roman}</span>'
-            f'<span class="topic-name">{cat["title"]}</span>'
-            f'<span class="topic-count">{count}</span>'
+            f' <span class="topic-name">{cat["title"]}</span>'
+            f' <span class="topic-count">{count}</span>'
             "</a></li>"
         )
 
@@ -395,7 +395,7 @@ def main():
         year=year,
         categories=categories,
         description=(
-            "Jack Verrill — freelance writer on AI, philosophy, politics, and national security."
+            "Freelance writer on technology, philosophy, and politics. Essays and articles on AI, foreign policy, electoral politics, and free speech."
         ),
         page_url=f"{SITE_URL}/",
         json_ld=json.dumps(PERSON_LD, ensure_ascii=False),
