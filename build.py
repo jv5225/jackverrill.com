@@ -28,9 +28,10 @@ CONTACT_PILLS = (
 PERSON_LD = {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": SITE_URL + "/#person",
     "name": SITE_NAME,
     "url": SITE_URL + "/",
-    "jobTitle": "Writer",
+    "jobTitle": "Freelance writer",
     "description": (
         "LSE and University of Michigan, writing about politics, emerging "
         "technology, national security, and how it all comes together."
@@ -38,6 +39,10 @@ PERSON_LD = {
     "alumniOf": [
         "The London School of Economics and Political Science",
         "University of Michigan",
+    ],
+    "knowsAbout": [
+        "Artificial intelligence", "Technology policy", "Foreign policy",
+        "Electoral politics", "Free speech", "National security", "Philosophy",
     ],
     "sameAs": [
         "https://x.com/jack_verri11",
@@ -64,6 +69,14 @@ EPIGRAPHS = {
     ),
     "On Free Speech": None,
     "On Everything Else": None,
+}
+
+CATEGORY_DESCRIPTIONS = {
+    "On AI": "Articles and essays on artificial intelligence, tech policy, and America's AI race — by Jack Verrill.",
+    "On Foreign Policy": "Writing on U.S. foreign policy, the Iran war, national security, and global order — by Jack Verrill.",
+    "On Electoral Politics": "Analysis of American electoral politics, party realignment, and political figures — by Jack Verrill.",
+    "On Free Speech": "Writing on free speech, censorship, and civil liberties in the U.S. and abroad — by Jack Verrill.",
+    "On Everything Else": "Columns and essays on education, healthcare, philosophy, and American life — by Jack Verrill.",
 }
 
 PUBLICATIONS = {
@@ -115,22 +128,48 @@ def clean_summary(html_summary: str) -> str:
 
 
 def article_ld(piece, page_url):
-    data = {
-        "@context": "https://schema.org",
+    cat_title = piece.get("category", "")
+    cat_slug = slugify(cat_title) if cat_title else ""
+    article = {
         "@type": "NewsArticle",
+        "@id": page_url,
         "headline": piece["title"],
         "url": page_url,
-        "author": {"@type": "Person", "name": SITE_NAME, "url": SITE_URL + "/"},
+        "author": {"@type": "Person", "@id": SITE_URL + "/#person", "name": SITE_NAME},
         "mainEntityOfPage": page_url,
     }
     if piece["date"]:
-        data["datePublished"] = str(piece["date"])
+        article["datePublished"] = str(piece["date"])
+        article["dateModified"] = str(piece["date"])
     if piece["summary"]:
-        data["description"] = strip_tags(piece["summary"])
+        article["description"] = strip_tags(piece["summary"])
     if piece["external_url"]:
-        data["isBasedOn"] = piece["external_url"]
+        article["isBasedOn"] = piece["external_url"]
     if piece["publication"]:
-        data["publisher"] = {"@type": "Organization", "name": piece["publication"]}
+        article["publisher"] = {"@type": "Organization", "name": piece["publication"]}
+
+    breadcrumb = {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+        ],
+    }
+    if cat_title and cat_slug:
+        breadcrumb["itemListElement"].append(
+            {"@type": "ListItem", "position": 2, "name": cat_title,
+             "item": f"{SITE_URL}/category/{cat_slug}.html"}
+        )
+        breadcrumb["itemListElement"].append(
+            {"@type": "ListItem", "position": 3, "name": piece["title"],
+             "item": page_url}
+        )
+    else:
+        breadcrumb["itemListElement"].append(
+            {"@type": "ListItem", "position": 2, "name": piece["title"],
+             "item": page_url}
+        )
+
+    data = {"@context": "https://schema.org", "@graph": [article, breadcrumb]}
     return json.dumps(data, ensure_ascii=False)
 
 
@@ -176,6 +215,7 @@ def main():
     (BUILD_DIR / "category").mkdir()
     shutil.copy(ROOT / "assets" / "style.css", BUILD_DIR / "style.css")
     shutil.copy(ROOT / "assets" / "about-photo.jpg", BUILD_DIR / "about-photo.jpg")
+    shutil.copy(ROOT / "assets" / "favicon.svg", BUILD_DIR / "favicon.svg")
 
     env = Environment(loader=FileSystemLoader(ROOT / "templates"))
     css_bytes = (ROOT / "assets" / "style.css").read_bytes()
@@ -232,6 +272,12 @@ def main():
             meta_parts.append(date_str)
         meta_html = ", ".join(meta_parts)
         piece_url = f"{SITE_URL}/{slug}.html"
+        if summary:
+            article_description = strip_tags(summary)
+        else:
+            pub_part = f" in {publication}" if publication else ""
+            date_part = f", {format_date(date)}" if date else ""
+            article_description = f"{title} — published{pub_part}{date_part}."
         page_html = template.render(
             title=title,
             full_title=f"{title} — {SITE_NAME}",
@@ -239,7 +285,7 @@ def main():
             root="/",
             year=year,
             categories=categories,
-            description=strip_tags(summary),
+            description=article_description,
             page_url=piece_url,
             og_type="article",
             json_ld=article_ld(piece, piece_url),
@@ -309,6 +355,35 @@ def main():
             + "</div>"
         )
 
+        cat_url = f"{SITE_URL}/category/{cat['slug']}.html"
+        cat_ld = {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "CollectionPage",
+                    "@id": cat_url,
+                    "url": cat_url,
+                    "name": cat["title"],
+                    "description": CATEGORY_DESCRIPTIONS.get(cat["title"], f"Writing by {SITE_NAME}."),
+                    "author": {"@type": "Person", "@id": SITE_URL + "/#person", "name": SITE_NAME},
+                    "hasPart": [
+                        {
+                            "@type": "Article",
+                            "url": p["external_url"] or f"{SITE_URL}/{p['slug']}.html",
+                            "name": p["title"],
+                        }
+                        for p in cat_pieces
+                    ],
+                },
+                {
+                    "@type": "BreadcrumbList",
+                    "itemListElement": [
+                        {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+                        {"@type": "ListItem", "position": 2, "name": cat["title"], "item": cat_url},
+                    ],
+                },
+            ],
+        }
         cat_html = template.render(
             title=cat["title"],
             full_title=f"{cat['title']} — Writing by {SITE_NAME}",
@@ -316,8 +391,9 @@ def main():
             root="/",
             year=year,
             categories=categories,
-            description=f"{cat['title']}: writing by {SITE_NAME}.",
-            page_url=f"{SITE_URL}/category/{cat['slug']}.html",
+            description=CATEGORY_DESCRIPTIONS.get(cat["title"], f"{cat['title']}: writing by {SITE_NAME}."),
+            page_url=cat_url,
+            json_ld=json.dumps(cat_ld, ensure_ascii=False),
             content=cat_content,
         )
         (BUILD_DIR / "category" / f"{cat['slug']}.html").write_text(cat_html)
@@ -396,10 +472,68 @@ def main():
             "Freelance writer on technology, philosophy, and politics. Essays and articles on AI, foreign policy, electoral politics, and free speech."
         ),
         page_url=f"{SITE_URL}/",
-        json_ld=json.dumps(PERSON_LD, ensure_ascii=False),
+        json_ld=json.dumps({
+            "@context": "https://schema.org",
+            "@graph": [
+                PERSON_LD,
+                {
+                    "@type": "WebSite",
+                    "@id": SITE_URL + "/#website",
+                    "name": SITE_NAME,
+                    "url": SITE_URL + "/",
+                    "description": "Freelance writer on technology, philosophy, and politics.",
+                    "author": {"@id": SITE_URL + "/#person"},
+                },
+            ],
+        }, ensure_ascii=False),
         content=home_content,
     )
     (BUILD_DIR / "index.html").write_text(index_html)
+
+    # --- RSS feed ---
+    def rss_date(date_val) -> str:
+        if not date_val:
+            return ""
+        try:
+            d = datetime.date.fromisoformat(str(date_val))
+            return d.strftime("%a, %d %b %Y 00:00:00 +0000")
+        except Exception:
+            return ""
+
+    rss_items = []
+    for p in pieces[:20]:
+        link = p["external_url"] or f"{SITE_URL}/{p['slug']}.html"
+        pub_date = rss_date(p["date"])
+        desc = strip_tags(p["summary"]) if p["summary"] else ""
+        item_lines = [
+            "    <item>",
+            f"      <title><![CDATA[{p['title']}]]></title>",
+            f"      <link>{link}</link>",
+            f"      <guid isPermaLink=\"true\">{link}</guid>",
+        ]
+        if pub_date:
+            item_lines.append(f"      <pubDate>{pub_date}</pubDate>")
+        if desc:
+            item_lines.append(f"      <description><![CDATA[{desc}]]></description>")
+        if p["category"]:
+            item_lines.append(f"      <category><![CDATA[{p['category']}]]></category>")
+        item_lines.append("    </item>")
+        rss_items.append("\n".join(item_lines))
+
+    rss_content = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n'
+        "  <channel>\n"
+        f"    <title>{SITE_NAME} — Writing</title>\n"
+        f"    <link>{SITE_URL}/</link>\n"
+        "    <description>Freelance writer on technology, philosophy, and politics.</description>\n"
+        "    <language>en</language>\n"
+        f'    <atom:link href="{SITE_URL}/feed.xml" rel="self" type="application/rss+xml"/>\n'
+        + "\n".join(rss_items) + "\n"
+        "  </channel>\n"
+        "</rss>\n"
+    )
+    (BUILD_DIR / "feed.xml").write_text(rss_content)
 
     # --- sitemap.xml ---
     today = datetime.date.today().isoformat()
